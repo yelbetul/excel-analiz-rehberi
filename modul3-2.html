@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 3.2: İnteraktif Pivot Table Atölyesi</title>
+    <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* ===================================
+           GELİŞMİŞ MODÜL 3 STİLLERİ
+           =================================== */
+        .pivot-workshop-container {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .workshop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .pivot-task-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .form-control {
+            border: 1px solid #ced4da; border-radius: .25rem; padding: .375rem .75rem;
+        }
+        #task-selector { flex-grow: 1; max-width: 500px; }
+
+        .workshop-body {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .workshop-sidebar {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        #pivot-task-instructions {
+            position: sticky;
+            top: 20px;
+        }
+        
+        #pivot-task-instructions h4 { font-size: 1.2em; }
+
+        .workshop-main {
+            flex: 3;
+            min-width: 600px;
+        }
+
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            grid-template-areas:
+                "fields dropzones"
+                "fields output";
+            gap: 15px;
+        }
+
+        .pivot-field-list-container { 
+            grid-area: fields; 
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            align-self: start; /* Grid içinde yukarıda kalmasını sağlar */
+        }
+        
+        .pivot-drop-zones { 
+            grid-area: dropzones; 
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .pivot-output-container { 
+            grid-area: output; 
+            margin-top: 15px;
+        }
+
+        li.pivot-field {
+            border: 1px solid #ced4da;
+            transition: all 0.2s ease;
+        }
+        li.pivot-field:hover {
+            border-color: #007bff;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.1);
+            transform: translateY(-2px);
+        }
+        li.pivot-field.dragging {
+             box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+             transform: scale(1.05);
+             z-index: 1000;
+        }
+
+        div.drop-zone {
+            border: 2px dashed #adb5bd;
+            transition: all 0.2s ease;
+        }
+        div.drop-zone.drag-over {
+            transform: scale(1.03);
+            background: #e9ecef;
+            border-color: #007bff;
+        }
+
+        .pivot-field-tag {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            box-shadow: 0 2px 5px rgba(0,123,255,0.3);
+            cursor: grab;
+        }
+        .pivot-field-tag:active {
+            cursor: grabbing;
+        }
+
+        /* AKILLI REHBERLİK ANİMASYONU */
+        .highlight-guidance {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+        }
+
+        /* KONFETİ ANİMASYONU */
+        #confetti-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 9999;
+        }
+        .confetti {
+            position: absolute;
+            width: 8px; height: 16px;
+            opacity: 0;
+            animation: fall 3s ease-in-out forwards;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotateZ(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotateZ(720deg); opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">Excel Analiz Laboratuvarı</a>
+            <a href="index.html#quiz-start" class="nav-link">Anasayfaya Dön</a>
+        </div>
+    </nav>
+
+    <section id="module-3-pivot" class="module" style="padding-top: 50px;">
+        <div class="container">
+            <header class="module-header">
+                <h2>Modül 3: Pivot Table Atölyesi</h2>
+                <h1>Konu 2: İnteraktif Atölye</h1>
+            </header>
+            
+            <section class="content-section">
+                <p>Teorik bilgileri pratiğe dökme zamanı! Aşağıdaki interaktif atölyede, farklı görevleri tamamlayarak bir Pivot Table'ın nasıl oluşturulduğunu bizzat deneyimleyeceksiniz. Bir görev seçin ve akıllı rehberliğin yardımıyla alanları doğru bölgelere sürükleyin.</p>
+            </section>
+
+            <div class="pivot-workshop-container">
+                <div class="workshop-header">
+                    <div class="pivot-task-selector">
+                        <label for="task-selector"><strong>Aktif Görev:</strong></label>
+                        <select id="task-selector" class="form-control">
+                            <option value="task1">Görev 1: Bölgesel Satış Raporu</option>
+                            <option value="task2">Görev 2: Temsilci Performansı</option>
+                            <option value="task3">Görev 3: Bölge-Temsilci Kırılımı</option>
+                            <option value="task4">Görev 4: Filtrelenmiş Rapor</option>
+                        </select>
+                    </div>
+                    <button id="reset-task-btn" class="btn btn-secondary">Görevi Sıfırla</button>
+                </div>
+
+                <div class="workshop-body">
+                    <div class="workshop-sidebar">
+                        <div id="pivot-task-instructions" class="analyst-tip">
+                            <h4 id="pivot-task-title">Görev Yükleniyor...</h4>
+                            <p><strong>Adım:</strong> Lütfen bekleyin...</p>
+                        </div>
+                    </div>
+                    <div class="workshop-main">
+                        <div class="interactive-grid">
+                            <div class="pivot-field-list-container">
+                                <h4>Pivot Table Alanları</h4>
+                                <p>(Alanları sürükleyin)</p>
+                                <ul id="pivot-field-list" class="pivot-fields">
+                                    <li class="pivot-field" draggable="true" data-field="Bölge"><i class="fas fa-grip-vertical"></i> Bölge</li>
+                                    <li class="pivot-field" draggable="true" data-field="Satış Temsilcisi"><i class="fas fa-grip-vertical"></i> Satış Temsilcisi</li>
+                                    <li class="pivot-field" draggable="true" data-field="Ürün Kategorisi"><i class="fas fa-grip-vertical"></i> Ürün Kategorisi</li>
+                                    <li class="pivot-field" draggable="true" data-field="Tarih"><i class="fas fa-grip-vertical"></i> Tarih</li>
+                                    <li class="pivot-field" draggable="true" data-field="Satış Tutarı"><i class="fas fa-grip-vertical"></i> Satış Tutarı</li>
+                                </ul>
+                            </div>
+                            <div class="pivot-drop-zones">
+                                <div class="drop-zone-container"><strong>FİLTRELER</strong><div class="drop-zone" id="pivot-drop-filters"></div></div>
+                                <div class="drop-zone-container"><strong>SÜTUNLAR</strong><div class="drop-zone" id="pivot-drop-columns"></div></div>
+                                <div class="drop-zone-container"><strong>SATIRLAR</strong><div class="drop-zone" id="pivot-drop-rows"></div></div>
+                                <div class="drop-zone-container"><strong>DEĞERLER</strong><div class="drop-zone" id="pivot-drop-values"></div></div>
+                            </div>
+                            <div class="pivot-output-container">
+                                <div id="pivot-filter-ui-container" class="pivot-filter-ui"></div>
+                                <h4>Simülasyon Çıktısı:</h4>
+                                <table id="pivot-output-table" class="styled-table pivot-sim-output"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            
+            <nav class="page-nav">
+                <a href="modul3-1.html" class="btn btn-secondary">&larr; Önceki Konu: Pivot Table'a Giriş</a>
+                <a href="modul3-3.html" class="btn btn-primary">Sonraki Konu: Pivot Grafikler &rarr;</a> 
+            </nav>
+        </div> 
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Bu site, "Excel'de Veri Analizi: Yeni Başlayanlardan Uzmanlara Kapsamlı Rehber" içeriği temel alınarak hazırlanmıştır.</p>
+        </div>
+    </footer>
+    
+    <div id="confetti-container"></div>
+    <script src="js/modul3.js"></script>
+
+</body>
+</html>

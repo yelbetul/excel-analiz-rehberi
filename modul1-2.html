@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 1.2: Veri Yönetimi - Excel Analiz Laboratuvarı</title>
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">Excel Analiz Laboratuvarı</a>
+            <a href="index.html#quiz-start" class="nav-link">Anasayfaya Dön</a>
+        </div>
+    </nav>
+
+    <main class="module-page container">
+        
+        <header class="module-header">
+            <h2>Modül 1: Excel'e Hazırlık (Temeller)</h2>
+            <h1>Konu 2: Temel Veri Yönetimi (Sıralama, Filtreleme ve Biçimlendirme)</h1>
+        </header>
+
+        <section class="content-section">
+            <h3>Çok Kriterli Sıralama ve Filtreleme</h3>
+            <p>Veriyi analiz etmenin ilk adımı, onu anlamlı bir düzene sokmaktır. Excel'de verilerinizi hiyerarşik olarak sıralayabilirsiniz. Örneğin, önce Bölgeye göre alfabetik, sonra aynı bölge içindeki kayıtları Satış Tutarına göre büyükten küçüğe sıralayabilirsiniz.</p>
+            <p>Filtreleme ise, binlerce satır içinden sadece ilgilendiğiniz alt kümeye odaklanmanızı sağlar. Excel, birden fazla sütunda aynı anda 'VE' (AND) koşuluyla (örn: Bölge="Ege" VE Yıl=2023) filtreleme yapabilir. 'VEYA' (OR) koşulu (örn: Bölge="Ege" VEYA Satışçı="Ali") için Gelişmiş Filtre (Advanced Filter) özelliği kullanılır.</p>
+            
+            <div class="analyst-tip">
+                <h4>Analist İpucusu: Filtreli Listede Toplam Almak (SUBTOTAL)</h4>
+                <p>Normal <code>TOPLA (SUM)</code> formülü, filtrelediğiniz listedeki gizli satırları da hesaba katar. Eğer sadece görünürdeki, filtrelenmiş satırların toplamını görmek istiyorsanız, <code>ALT TOPLAM (SUBTOTAL)</code> formülünü kullanmalısınız.</p>
+                <p>Örnek: <code>=SUBTOTAL(9, C2:C1000)</code> formülü, C sütunundaki filtrelenmiş değerlerin toplamını verir.</p>
+            </div>
+        </section>
+
+        <section class="interactive-section">
+            <h3>İnteraktif Sıralama Simülatörü</h3>
+            <p>Aşağıdaki ham tabloyu istediğiniz kritere göre sıralayın ve verinin nasıl yeniden düzenlendiğini canlı görün.</p>
+
+            <div class="sort-controls">
+                <label for="sort-by-1">Önce şuna göre sırala:</label>
+                <select id="sort-by-1">
+                    <option value="0">Bölge (A-Z)</option>
+                    <option value="0-desc">Bölge (Z-A)</option>
+                    <option value="1">Ürün (A-Z)</option>
+                    <option value="2-desc">Satış Tutarı (Yüksekten Düşüğe)</option>
+                    <option value="2">Satış Tutarı (Düşükten Yükseğe)</option>
+                </select>
+                <button id="sort-button" class="btn btn-secondary">Sırala</button>
+            </div>
+
+            <table class="styled-table" id="sort-table">
+                <thead>
+                    <tr>
+                        <th>Bölge</th>
+                        <th>Ürün</th>
+                        <th class="is-numeric">Satış Tutarı (TL)</th>
+                    </tr>
+                </thead>
+                <tbody id="sort-table-body">
+                    <tr>
+                        <td>Marmara</td>
+                        <td>Elektronik</td>
+                        <td class="is-numeric">15000</td>
+                    </tr>
+                    <tr>
+                        <td>Ege</td>
+                        <td>Mobilya</td>
+                        <td class="is-numeric">8000</td>
+                    </tr>
+                    <tr>
+                        <td>Marmara</td>
+                        <td>Gıda</td>
+                        <td class="is-numeric">12000</td>
+                    </tr>
+                    <tr>
+                        <td>Akdeniz</td>
+                        <td>Elektronik</td>
+                        <td class="is-numeric">22000</td>
+                    </tr>
+                    <tr>
+                        <td>Ege</td>
+                        <td>Elektronik</td>
+                        <td class="is-numeric">18000</td>
+                    </tr>
+                    <tr>
+                        <td>Akdeniz</td>
+                        <td>Gıda</td>
+                        <td class="is-numeric">7500</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h3>Koşullu Biçimlendirme ile Veriyi Vurgulama</h3>
+            <p>Koşullu biçimlendirme, belirlediğiniz kurallara göre hücrelerin formatını otomatik değiştirerek verideki önemli noktaları görselleştirir. Bu, ham tablo içinde gözden kaçabilecek eğilimleri anında fark etmenizi sağlar. Analiz açısından en faydalı üç tür:</p>
+            <ul>
+                <li><strong>Veri Çubukları (Data Bars):</strong> Hücredeki sayısal değerin büyüklüğüne göre dolan çubuklar ekler. Tablo içinde minik bir bar grafik etkisi yaratır.</li>
+                <li><strong>Renk Ölçekleri (Color Scales):</strong> Değerleri düşükten yükseğe bir renk gradyanı içinde renklendirir (örn: Kırmızıdan Yeşile).</li>
+                <li><strong>Formüle Dayalı Kurallar:</strong> Kendi formülünüzle esnek kurallar oluşturmanızı sağlar (örn: Satış tutarı, hedeften büyük olan tüm satırı yeşile boya).</li>
+            </ul>
+        </section>
+
+        <section class="interactive-section">
+            <h3>İnteraktif Galeri: Biçimlendirmenin Gücü</h3>
+            <p>Aynı veri setinin farklı koşullu biçimlendirme stilleriyle nasıl göründüğünü görmek için sekmelere tıklayın.</p>
+            
+            <div class="tabs" id="cf-tabs">
+                <button class="tab-button active" data-target="tab-raw">Ham Veri</button>
+                <button class="tab-button" data-target="tab-databars">Veri Çubukları</button>
+                <button class="tab-button" data-target="tab-colorscale">Renk Ölçekleri</button>
+                <button class="tab-button" data-target="tab-formula">Formül Kuralı</button>
+            </div>
+
+            <div id="tab-raw" class="tab-content active">
+                <p>Verinin hiçbir stil uygulanmamış ham hali.</p>
+                <table class="styled-table">
+                    <thead><tr><th>Bölge</th><th>Ürün</th><th class="is-numeric">Satış Tutarı (TL)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Marmara</td><td>Elektronik</td><td class="is-numeric">15000</td></tr>
+                        <tr><td>Ege</td><td>Mobilya</td><td class="is-numeric">8000</td></tr>
+                        <tr><td>Marmara</td><td>Gıda</td><td class="is-numeric">12000</td></tr>
+                        <tr><td>Akdeniz</td><td>Elektronik</td><td class="is-numeric">22000</td></tr>
+                        <tr><td>Ege</td><td>Elektronik</td><td class="is-numeric">18000</td></tr>
+                        <tr><td>Akdeniz</td><td>Gıda</td><td class="is-numeric">7500</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="tab-databars" class="tab-content">
+                <p><strong>Veri Çubukları:</strong> Satış Tutarının büyüklüğünü anında görün. En yüksek satışı (Akdeniz) fark etmek çok kolay.</p>
+                <table class="styled-table data-bar-table">
+                    <thead><tr><th>Bölge</th><th>Ürün</th><th class="is-numeric">Satış Tutarı (TL)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Marmara</td><td>Elektronik</td><td class="is-numeric"><div class="data-bar" style="width: 68.1%;"></div><span>15000</span></td></tr>
+                        <tr><td>Ege</td><td>Mobilya</td><td class="is-numeric"><div class="data-bar" style="width: 36.3%;"></div><span>8000</span></td></tr>
+                        <tr><td>Marmara</td><td>Gıda</td><td class="is-numeric"><div class="data-bar" style="width: 54.5%;"></div><span>12000</span></td></tr>
+                        <tr><td>Akdeniz</td><td>Elektronik</td><td class="is-numeric"><div class="data-bar" style="width: 100%;"></div><span>22000</span></td></tr>
+                        <tr><td>Ege</td><td>Elektronik</td><td class="is-numeric"><div class="data-bar" style="width: 81.8%;"></div><span>18000</span></td></tr>
+                        <tr><td>Akdeniz</td><td>Gıda</td><td class="is-numeric"><div class="data-bar" style="width: 34.1%;"></div><span>7500</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="tab-colorscale" class="tab-content">
+                <p><strong>Renk Ölçekleri (Kırmızı-Yeşil):</strong> Değer dağılımını görün. Düşük (7500) ve Yüksek (22000) değerler anında öne çıkıyor.</p>
+                <table class="styled-table">
+                    <thead><tr><th>Bölge</th><th>Ürün</th><th class="is-numeric">Satış Tutarı (TL)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Marmara</td><td>Elektronik</td><td class="is-numeric color-scale-mid-high">15000</td></tr>
+                        <tr><td>Ege</td><td>Mobilya</td><td class="is-numeric color-scale-low">8000</td></tr>
+                        <tr><td>Marmara</td><td>Gıda</td><td class="is-numeric color-scale-mid">12000</td></tr>
+                        <tr><td>Akdeniz</td><td>Elektronik</td><td class="is-numeric color-scale-high">22000</td></tr>
+                        <tr><td>Ege</td><td>Elektronik</td><td class="is-numeric color-scale-high">18000</td></tr>
+                        <tr><td>Akdeniz</td><td>Gıda</td><td class="is-numeric color-scale-low">7500</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="tab-formula" class="tab-content">
+                <p><strong>Formüle Dayalı Kural:</strong> "Satış Tutarı 15.000'den büyük olan tüm satırı vurgula" gibi özel bir kural.</p>
+                <table class="styled-table">
+                    <thead><tr><th>Bölge</th><th>Ürün</th><th class="is-numeric">Satış Tutarı (TL)</th></tr></thead>
+                    <tbody>
+                        <tr class="highlight-row-faint"><td>Marmara</td><td>Elektronik</td><td class="is-numeric">15000</td></tr>
+                        <tr><td>Ege</td><td>Mobilya</td><td class="is-numeric">8000</td></tr>
+                        <tr><td>Marmara</td><td>Gıda</td><td class="is-numeric">12000</td></tr>
+                        <tr class="highlight-row"><td>Akdeniz</td><td>Elektronik</td><td class="is-numeric">22000</td></tr>
+                        <tr class="highlight-row"><td>Ege</td><td>Elektronik</td><td class="is-numeric">18000</td></tr>
+                        <tr><td>Akdeniz</td><td>Gıda</td><td class="is-numeric">7500</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <nav class="page-nav">
+            <a href="modul1-1.html" class="btn btn-secondary">&larr; Önceki Konu: Veri Yapısı</a>
+            <a href="modul2-1.html" class="btn btn-primary">Sonraki Modül: Formül Kütüphanesi &rarr;</a>
+        </nav>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Bu site, "Excel'de Veri Analizi: Yeni Başlayanlardan Uzmanlara Kapsamlı Rehber" içeriği temel alınarak hazırlanmıştır.</p>
+        </div>
+    </footer>
+
+    <script src="js/modul1.js"></script>
+</body>
+</html>

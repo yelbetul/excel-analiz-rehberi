@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 1.1: Veri Yapısı ve Dil Ayarları - Excel Analiz Laboratuvarı</title>
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">Excel Analiz Laboratuvarı</a>
+            <a href="index.html#quiz-start" class="nav-link">Anasayfaya Dön</a>
+        </div>
+    </nav>
+
+    <main class="module-page container">
+
+        <header class="module-header">
+            <h2>Modül 1: Excel'e Hazırlık (Temeller)</h2>
+            <h1>Konu 1: Doğru Veri Yapısı ve Global Standartlar</h1>
+        </header>
+
+        <!-- YENİ BÖLÜM: Giriş ve Hedefler -->
+        <section class="content-section">
+            <h3>Excel Analizinin Temeli: Sağlam Bir Başlangıç</h3>
+            <p>Excel, ilk sürümünün 1985 yılında çıkmasından bu yana veri analizinde önemli bir yer edinmiştir. Günümüzde Tableau, Power BI gibi daha gelişmiş araçlar olsa da Excel’in yaygınlığı ve esnekliği onu hâlâ vazgeçilmez kılıyor. Bu modülde, profesyonel bir analizin "sıfırıncı adımı" olan veri hazırlama prensiplerini öğreneceksiniz.</p>
+            
+            <div class="analyst-tip">
+                <h4>Bu Konuda Ne Öğreneceksiniz?</h4>
+                <ul>
+                    <li><strong>Doğru Veri Yapısı:</strong> Analize uygun, "temiz" bir Excel tablosu nasıl olmalıdır? Sık yapılan hatalar nelerdir?</li>
+                    <li><strong>Dil Ayarları ve Global Standartlar:</strong> Bir veri analisti olarak neden formülleri İngilizce kullanmanız gerektiğini ve bunun kariyerinize etkilerini.</li>
+                    <li><strong>Büyük Veri Limitleri:</strong> Excel'in nerede yetersiz kalabileceğini ve ne zaman daha güçlü araçlara yönelmeniz gerektiğini.</li>
+                </ul>
+            </div>
+        </section>
+
+
+        <section class="content-section">
+            <h3>Veri Yapısı: Analizin Omurgası</h3>
+            <p>Excel'de verimli analiz yapmanın ilk ve en önemli kuralı, ham verinizi doğru yapılandırmaktır. Veri setleri genellikle **tabular (tablo)** biçimde, her sütunda tek bir alan (örneğin Tarih, Ürün, Bölge, Satış Tutarı gibi) ve her satırda tek bir kayıt olacak şekilde düzenlenmelidir. Başlık satırı mutlaka olmalı, her sütun için tek ve anlaşılır bir başlık kullanılmalıdır. Birleştirilmiş hücrelerden ve gereksiz boş satırlardan kaçınılmalıdır.</p>
+
+            <div class="analyst-tip">
+                <h4>Analist İpucusu: Mutlaka 'Tablo Olarak Biçimlendir' Kullanın!</h4>
+                <p>Verinizi seçip Excel'in 'Tablo Olarak Biçimlendir' (Format as Table) özelliğini kullanmak, analiz hayatınızı kurtarır. Neden mi?</p>
+                <ul>
+                    <li><strong>Dinamik Aralıklar:</strong> Tabloya yeni satır eklediğinizde formülleriniz ve Pivot'larınız otomatik olarak güncellenir. Aralıkları elle düzeltme derdi biter.</li>
+                    <li><strong>Okunabilirlik:</strong> Formüller <code>A2:C100</code> gibi karmaşık referanslar yerine <code>SatışTablosu[Tutar]</code> gibi anlaşılır, yapılandırılmış referanslar kullanır.</li>
+                    <li><strong>Kolay Stil ve Yönetim:</strong> Filtreleme, sıralama ve stil seçenekleri otomatik olarak gelir ve çok daha kullanışlıdır.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="interactive-section">
+            <h3>Görsel Karşılaştırma: Kötü Veri vs. İyi Veri</h3>
+            <p>Sık yapılan hatalardan biri, veriyi analiz için değil, rapor gibi sunum için düzenlemektir. İki görünüm arasındaki farkı görmek için sekmelere tıklayın.</p>
+
+            <div class="tabs" id="data-structure-tabs">
+                <button class="tab-button active" data-target="tab-bad">Kötü Veri (Rapor Görünümü)</button>
+                <button class="tab-button" data-target="tab-good">İyi Veri (Tablo Yapısı)</button>
+            </div>
+
+            <div id="tab-bad" class="tab-content active">
+                <p><strong>Hata:</strong> Birleştirilmiş hücreler, alt başlık olarak kullanılan veriler (Ege, Marmara) ve boş satırlar. Bu yapı filtrelenemez, sıralanamaz ve Pivot'a alınamaz.</p>
+                <table class="bad-table">
+                    <thead>
+                        <tr>
+                            <th colspan="3">2024 Yılı Satış Raporu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="region-header">Ege Bölgesi</td>
+                        </tr>
+                        <tr>
+                            <td>Mobilya</td>
+                            <td>8000</td>
+                            <td>15.01.2024</td>
+                        </tr>
+                        <tr>
+                            <td>Elektronik</td>
+                            <td>18000</td>
+                            <td>22.01.2024</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="region-header">Marmara Bölgesi</td>
+                        </tr>
+                        <tr>
+                            <td>Elektronik</td>
+                            <td>15000</td>
+                            <td>10.02.2024</td>
+                        </tr>
+                        <tr>
+                            <td>Gıda</td>
+                            <td>12000</td>
+                            <td>12.02.2024</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="tab-good" class="tab-content">
+                <p><strong>Doğru:</strong> Her sütun bir başlığa, her satır tek bir kayda sahip. 'Bölge' bilgisi artık kendi sütununda ve her satırda tekrarlanıyor. Bu yapı analize hazırdır.</p>
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Bölge</th>
+                            <th>Ürün</th>
+                            <th class="is-numeric">Satış Tutarı</th>
+                            <th>Tarih</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ege</td>
+                            <td>Mobilya</td>
+                            <td class="is-numeric">8000</td>
+                            <td>15.01.2024</td>
+                        </tr>
+                        <tr>
+                            <td>Ege</td>
+                            <td>Elektronik</td>
+                            <td class="is-numeric">18000</td>
+                            <td>22.01.2024</td>
+                        </tr>
+                        <tr>
+                            <td>Marmara</td>
+                            <td>Elektronik</td>
+                            <td class="is-numeric">15000</td>
+                            <td>10.02.2024</td>
+                        </tr>
+                        <tr>
+                            <td>Marmara</td>
+                            <td>Gıda</td>
+                            <td class="is-numeric">12000</td>
+                            <td>12.02.2024</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- YENİ BÖLÜM: Büyük Veri Uyarısı -->
+        <section class="content-section">
+            <div class="analyst-tip">
+                <h4>Profesyonel İpucu: Büyük Veri Setleri ve Performans</h4>
+                <p>Unutmayın, Excel'in satır sınırı yaklaşık 1 milyon satırdır. Eğer analiz edilecek veri bu sınıra yaklaşıyor veya aşıyorsa, performans sorunları yaşamamak için ham veriyi özetleyerek almak veya <strong>Power Pivot</strong>, <strong>Power Query</strong> gibi daha güçlü Excel eklentilerine yönelmek gerekebilir. Bu rehberde, Excel’in temel özellikleriyle rahatça işlenebilecek orta ölçekli veri setleri üzerinde duracağız.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h3>Dil Ayarları ve Global Standartlar: Neden İngilizce?</h3>
+            <p>Bu rehberde tüm formülleri İngilizce (IF, VLOOKUP, SUMPRODUCT) olarak göreceksiniz. Bunun temel sebebi, bir veri analisti için uluslararası standartlara uyum sağlamaktır. Farklı dil ayarları formül isimlerini değiştirir. Örneğin, sizin Türkçe Excel'de <code>EĞER</code> ile yazdığınız bir formül, İngilizce Excel kullanan birine gittiğinde çalışmayabilir. Daha da kötüsü, İngilizce oluşturulmuş formüller Almanca Excel’de tanınmaz. Bu durum, dosyaların uluslararası ekiplerde paylaşılmasını veya global kaynaklardan (bloglar, forumlar) öğrenmeyi zorlaştırabilir. Size tavsiyemiz, imkanınız varsa Excel’i İngilizce arayüzle kullanmanızdır.</p>
+        </section>
+
+        <section class="interactive-section">
+            <h3>Anlık Formül Çevirici</h3>
+            <p>Aklınızdaki Türkçe formülün uluslararası karşılığını anında bulun! Gerekirse Microsoft’un sağladığı <strong>Functions Translator</strong> eklentisiyle de Excel içinde çeviri yapabilirsiniz.</p>
+
+            <div class="translator-container">
+                <div class="translator-box">
+                    <label for="formula-tr">Türkçe Formül:</label>
+                    <input type="text" id="formula-tr" placeholder="örn: DÜŞEYARA">
+                </div>
+                <div class="translator-box">
+                    <label for="formula-en">İngilizce Karşılığı:</label>
+                    <input type="text" id="formula-en" placeholder="örn: VLOOKUP" readonly>
+                </div>
+            </div>
+        </section>
+
+        <nav class="page-nav">
+            <a href="index.html" class="btn btn-secondary">&larr; Anasayfaya Dön</a>
+            <a href="modul1-2.html" class="btn btn-primary">Sonraki Konu: Sıralama ve Filtreleme &rarr;</a>
+        </nav>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Bu site, "Excel'de Veri Analizi: Yeni Başlayanlardan Uzmanlara Kapsamlı Rehber" içeriği temel alınarak hazırlanmıştır.</p>
+        </div>
+    </footer>
+
+    <!-- Mevcut script.js dosyanızda Modül 1.1'in kodları olduğu için bu ismi koruyoruz -->
+    <script src="js/modul1.js"></script>
+</body>
+
+</html>

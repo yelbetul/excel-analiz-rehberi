@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Analiz Laboratuvarı: Veriye Hükmedin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Quiz seçenekleri için özel stiller */
+        .quiz-options label { 
+            display: block; 
+            margin-bottom: 12px;
+            position: relative;
+            padding: 10px 10px 10px 40px;
+            cursor: pointer;
+            font-size: 1em;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            transition: background-color 0.2s, border-color 0.2s;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .quiz-options label:hover {
+            background-color: #f8f9fa;
+        }
+        .quiz-options input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .quiz-options .checkmark {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            height: 20px;
+            width: 20px;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+        }
+        .quiz-options label:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+        .quiz-options input:checked ~ .checkmark {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .quiz-options .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .quiz-options input:checked ~ .checkmark:after {
+            display: block;
+        }
+        .quiz-options .checkmark:after {
+            top: 6px;
+            left: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+        .quiz-options input:checked + span + span{
+            font-weight: bold;
+        }
+
+        /* YENİ GELİŞMİŞ QUIZ STİLLERİ */
+        .quiz-progress {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            height: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #007bff;
+            border-radius: 5px;
+            transition: width 0.4s ease-in-out;
+        }
+        .quiz-question {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            display: none; /* Başlangıçta hepsi gizli */
+        }
+        .quiz-question.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .quiz-feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 20px;
+            color: #dc3545;
+        }
+        #quiz-result {
+            text-align: center;
+        }
+        #quiz-result h3 {
+            font-size: 1.8em;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Excel'i Sadece Kullanmayın. Ona Hükmedin.</h1>
+            <p class="subtitle">
+                Günümüzde Tableau, Power BI gibi araçlar olsa da Excel'in yaygınlığı ve esnekliği onu hâlâ vazgeçilmez kılıyor. Bu interaktif rehberle, temel seviyeden uzmanlığa giden yolda veriyi analiz etmeyi, görselleştirmeyi ve hikayeye dönüştürmeyi "yaparak" öğrenin.
+            </p>
+            <a href="#quiz-start" class="btn btn-primary">Hemen Başla (Ücretsiz)</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="quiz-section" id="quiz-start">
+            <div class="container">
+                <h2>Nereden Başlamalısın?</h2>
+                <p>30 saniyelik bu testle size en uygun modülü önerelim.</p>
+                
+                <!-- QUIZ BURAYA DİNAMİK OLARAK YÜKLENECEK -->
+                <div id="quiz-container">
+                    <!-- JS Tarafından Doldurulacak -->
+                </div>
+
+                <div id="quiz-result" style="display:none;">
+                    <h3>Sana Özel Rota:</h3>
+                    <p id="result-text"></p>
+                    <a href="#" id="result-link" class="btn btn-secondary">Modüle Git</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="modules-section">
+            <div class="container">
+                <h2>Öğrenme Yolculuğun</h2>
+                <div class="modules-grid">
+                    
+                    <div class="card">
+                        <h3>Modül 1: Temeller</h3>
+                        <p>Veriyi doğru yapılandırma, filtreleme, sıralama ve koşullu biçimlendirme. Analizin temelini sağlam atın.</p>
+                        <a href="modul1-1.html">Modül 1'i Keşfet</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Modül 2: Formüller</h3>
+                        <p>İnteraktif Formül Kütüphanesi: XLOOKUP'tan dinamik dizilere, en çok kullanılan formülleri canlı olarak deneyin.</p>
+                        <a href="modul2-1.html">Formülleri Dene</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Modül 3: Pivot Table</h3>
+                        <p>Pivot Table Atölyesi: Sürükle-bırak simülatörümüzle veriyi kırıp dökerek anında özet raporlar oluşturun.</p>
+                        <a href="modul3-1.html">Atölyeye Katıl</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Modül 4: Görseller</h3>
+                        <p>Veri Görselleştirme Stüdyosu: Doğru grafiği seçmeyi ve verilerle "hikaye anlatmayı" uygulamalı öğrenin.</p>
+                        <a href="modul4-1.html">Stüdyoya Gir</a>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Modül 5: Hatalar & İpuçları</h3>
+                        <p>Sık yapılan Excel hatalarını ($D$1 hatası, hücre birleştirme vb.) ve profesyonel çözüm yollarını keşfedin.</p>
+                        <a href="modul5-1.html">İpuçlarını Öğren</a>
+                    </div>
+
+                    <div class="card">
+                        <h3>Ek Bölüm: VBA & Makrolar</h3>
+                        <p>Tekrarlayan görevleri otomatikleştirmek için VBA'in temellerini ve pratik makro kod örneklerini inceleyin.</p>
+                        <a href="modul6-1.html">Otomasyonu Keşfet</a>
+                    </div>
+
+                    <div class="card card-final">
+                        <h3>Final: Meydan Okuma</h3>
+                        <p>Tüm öğrendiklerinizi birleştirerek gerçekçi bir vaka analizini baştan sona çözün ve yeteneklerinizi test edin.</p>
+                        <a href="modul7-1.html">Meydan Oku</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="resources-section">
+            <div class="container">
+                <h2>Pratiğe Başlamaya Hazır mısın?</h2>
+                <p>Rehber boyunca kullanacağımız tüm örnek veri setleri (E-ticaret satış verileri, İK verileri vb.) seni bekliyor. İndir ve hemen uygulamaya başla!</p>
+                <a href="#" class="btn btn-primary">Tüm Örnek Veri Setlerini İndir (.zip)</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Bu site, "Excel'de Veri Analizi: Yeni Başlayanlardan Uzmanlara Kapsamlı Rehber" içeriği temel alınarak hazırlanmıştır. | Hakkında | İletişim</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

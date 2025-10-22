@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 3.1: Pivot Table'a Giriş</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .scenario-card {
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .scenario-card h4 {
+            margin-top: 0;
+            color: #0056b3;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .scenario-card table {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .scenario-card .pivot-header {
+            font-weight: bold;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">Excel Analiz Laboratuvarı</a>
+            <a href="index.html#quiz-start" class="nav-link">Anasayfaya Dön</a>
+        </div>
+    </nav>
+
+    <section id="module-3-intro" class="module" style="padding-top: 50px;">
+        <div class="container">
+            <header class="module-header">
+                <h2>Modül 3: Pivot Table Ustalığı</h2>
+                <h1>Veriyi Kırıp Dökmenin Sihirli Yolu</h1>
+            </header>
+
+            <section class="content-section">
+                <h3>Veri Analizinin İsviçre Çakısı: Pivot Table</h3>
+                <p>Excel Pivot Tablolar, binlerce satırlık büyük veri listelerini birkaç tıklamayla özet tablolar haline
+                    getirme imkânı sunar. Bir veri analisti için pivot, hızlı keşif analizi (<strong>exploratory
+                        analysis</strong>) ve raporlama adına en güçlü araçlardan biridir. Orijinal veri tablonuza
+                    dokunmadan, sürükle-bırak ile farklı kırılımlarda özetler çıkarabilir, verinizdeki
+                    karşılaştırmaları, kalıpları ve trendleri anında görebilirsiniz.</p>
+            </section>
+
+            <hr style="margin: 30px 0;">
+
+            <h3>Gerçek Analist Senaryoları</h3>
+            <p>Pivot Table'ın gücü, farklı iş sorularına anında cevap verebilmesinden gelir. İşte en yaygın kullanım
+                senaryolarından bazı statik örnekler:</p>
+
+            <div class="scenario-grid">
+                <div class="scenario-card">
+                    <h4>Senaryo 1: Tek Boyutlu Özet</h4>
+                    <p><strong>Amaç:</strong> Her bir bölgenin toplam satışını görmek.</p>
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th class="pivot-header">Bölge</th>
+                                <th class="pivot-header is-numeric">Toplam Satış</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="pivot-header">Akdeniz</td>
+                                <td class="is-numeric">55,500</td>
+                            </tr>
+                            <tr>
+                                <td class="pivot-header">Ege</td>
+                                <td class="is-numeric">75,500</td>
+                            </tr>
+                            <tr>
+                                <td class="pivot-header">Marmara</td>
+                                <td class="is-numeric">79,500</td>
+                            </tr>
+                            <tr>
+                                <td class="pivot-header"><strong>Genel Toplam</strong></td>
+                                <td class="is-numeric"><strong>210,500</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="scenario-card">
+                    <h4>Senaryo 2: Çapraz Tablo (Matris)</h4>
+                    <p><strong>Amaç:</strong> Hangi bölgede, hangi ürün kategorisinin ne kadar sattığını görmek.</p>
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th class="pivot-header">Bölge</th>
+                                <th class="pivot-header is-numeric">Elektronik</th>
+                                <th class="pivot-header is-numeric">Gıda</th>
+                                <th class="pivot-header is-numeric">Mobilya</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="pivot-header">Akdeniz</td>
+                                <td class="is-numeric">38,000</td>
+                                <td class="is-numeric">15,500</td>
+                                <td class="is-numeric">9,000</td>
+                            </tr>
+                            <tr>
+                                <td class="pivot-header">Ege</td>
+                                <td class="is-numeric">40,000</td>
+                                <td class="is-numeric">16,000</td>
+                                <td class="is-numeric">19,500</td>
+                            </tr>
+                            <tr>
+                                <td class="pivot-header">Marmara</td>
+                                <td class="is-numeric">33,000</td>
+                                <td class="is-numeric">24,500</td>
+                                <td class="is-numeric">22,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="scenario-card">
+                    <h4>Senaryo 3: Değerleri Farklı Gösterme</h4>
+                    <p><strong>Amaç:</strong> Toplam satış yerine, her bölgedeki "işlem adedini" (sayımını) görmek.</p>
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th class="pivot-header">Bölge</th>
+                                <th class="pivot-header is-numeric">Satış Adedi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="pivot-header">Akdeniz</td>
+                                <td class="is-numeric">5</td>
+                            </tr>
+                            <tr>
+                                <td class="pivot-header">Ege</td>
+                                <td class="is-numeric">7</td>
+                            </tr>
+                            <tr>
+                                <td class="pivot-header">Marmara</td>
+                                <td class="is-numeric">8</td>
+                            </tr>
+                            <tr>
+                                <td class="pivot-header"><strong>Genel Toplam</strong></td>
+                                <td class="is-numeric"><strong>20</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="analyst-tip" style="margin-top: 30px;">
+                <h4>İleri Seviye Manevralar</h4>
+                <p>Bu temel özetlerin ötesinde, Pivot Table'lar ile <strong>tarihleri aylık/yıllık
+                        gruplayabilir</strong>, veri setinizde olmayan <strong>yeni metrikler (Hesaplanmış
+                        Alanlar)</strong> oluşturabilir ve raporunuza <strong>interaktif filtre butonları
+                        (Dilimleyiciler)</strong> ekleyebilirsiniz. Bu konuları bir sonraki adım olan interaktif
+                    atölyemizde deneyimleyeceksiniz.</p>
+            </div>
+
+            <nav class="page-nav">
+                <a href="modul2-1.html" class="btn btn-secondary">&larr; Önceki Modül: Formüller</a>
+                <a href="modul3-2.html" class="btn btn-primary">Şimdi Uygulama Zamanı: İnteraktif Atölye &rarr;</a>
+            </nav>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Bu site, "Excel'de Veri Analizi: Yeni Başlayanlardan Uzmanlara Kapsamlı Rehber" içeriği temel alınarak
+                hazırlanmıştır.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

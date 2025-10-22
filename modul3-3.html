@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 3.3: Pivot Grafikler ile Görselleştirme</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .studio-container {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .studio-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .studio-sidebar {
+            flex: 1;
+            min-width: 300px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .studio-sidebar h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .chart-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .chart-controls .btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 8px;
+            background-color: #f8f9fa;
+            color: #495057;
+            border: 1px solid #ced4da;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .chart-controls .btn:hover {
+            border-color: #007bff;
+            background-color: #e9ecef;
+        }
+
+        .chart-controls .btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
+        .studio-main {
+            flex: 2.5;
+            min-width: 500px;
+        }
+
+        #chart-title-display {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            color: #343a40;
+        }
+
+        .chart-canvas-container {
+            position: relative;
+            height: 450px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .analyst-tip.feedback-correct {
+            border-left-color: #28a745;
+        }
+
+        .analyst-tip.feedback-warning {
+            border-left-color: #ffc107;
+        }
+
+        .analyst-tip.feedback-correct h4 {
+            color: #155724;
+        }
+
+        .analyst-tip.feedback-warning h4 {
+            color: #856404;
+        }
+
+        #analyst-story-comment {
+            margin-top: 20px;
+            border-left-color: #17a2b8;
+        }
+
+        #analyst-story-comment h4 {
+            color: #0c5460;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">Excel Analiz Laboratuvarı</a>
+            <a href="index.html#quiz-start" class="nav-link">Anasayfaya Dön</a>
+        </div>
+    </nav>
+
+    <section id="module-3-charts" class="module" style="padding-top: 50px;">
+        <div class="container">
+            <header class="module-header">
+                <h2>Modül 3: Pivot Table Ustalığı</h2>
+                <h1>Konu 3: Pivot Grafikler ile Özetleri Görselleştirme</h1>
+            </header>
+
+            <section class="content-section">
+                <h3>Sayıları Konuşturmak: PivotChart Nedir?</h3>
+                <p>Pivot Table ile elde ettiğiniz özet verileri, bir grafiğe dönüştürerek çok daha anlaşılır ve etkili
+                    hale getirebilirsiniz. Excel bu amaçla, doğrudan pivot tablonuza bağlı olan özel **PivotChart**'lar
+                    oluşturmanıza olanak tanır. PivotChart'ın en büyük gücü, pivot tablonuzdaki veya dilimleyicilerdeki
+                    (slicer) herhangi bir değişikliğe anında uyum sağlaması ve grafiğin dinamik olarak güncellenmesidir.
+                </p>
+            </section>
+
+            <div class="studio-container">
+                <div class="studio-layout">
+                    <!-- KONTROL PANELİ (SOL) -->
+                    <aside class="studio-sidebar">
+                        <div class="control-group">
+                            <h4>1. Analiz Senaryosu Seçin</h4>
+                            <select id="chart-scenario-select" class="form-control">
+                                <option value="regionalSales">Bölgesel Satış Kırılımı</option>
+                                <option value="monthlyTrend">Aylık Satış Trendi</option>
+                                <option value="marketShare">Kategori Pazar Payı</option>
+                                <option value="correlation">Reklam Harcaması vs. Satış</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <h4>2. Grafik Türünü Deneyin</h4>
+                            <div class="chart-controls">
+                                <button id="btn-column" class="btn"><i class="fas fa-chart-bar"></i> Sütun</button>
+                                <button id="btn-bar" class="btn"><i class="fas fa-align-left"></i> Çubuk</button>
+                                <button id="btn-line" class="btn"><i class="fas fa-chart-line"></i> Çizgi</button>
+                                <button id="btn-area" class="btn"><i class="fas fa-chart-area"></i> Alan</button>
+                                <button id="btn-pie" class="btn"><i class="fas fa-chart-pie"></i> Pasta</button>
+                                <button id="btn-scatter" class="btn"><i class="fas fa-braille"></i> Dağılım</button>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <h4>Analist Notu</h4>
+                            <div class="analyst-tip" id="chart-explanation-box">
+                                <h4 id="explanation-title"></h4>
+                                <p id="explanation-text"></p>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- GÖSTERİM ALANI (SAĞ) -->
+                    <main class="studio-main">
+                        <h3 id="chart-title-display"></h3>
+                        <div class="chart-canvas-container">
+                            <canvas id="pivot-chart-canvas"></canvas>
+                        </div>
+                        <div class="analyst-tip" id="analyst-story-comment" style="display: none;">
+                            <h4><i class="fas fa-lightbulb"></i> Verinin Anlattığı Hikaye</h4>
+                            <p id="analyst-story-text"></p>
+                        </div>
+                    </main>
+                </div>
+            </div>
+
+            <nav class="page-nav">
+                <a href="modul3-2.html" class="btn btn-secondary">&larr; Önceki Konu: İnteraktif Atölye</a>
+                <a href="modul4-1.html" class="btn btn-primary">Sonraki Modül: Veri Görselleştirme &rarr;</a>
+            </nav>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Bu site, "Excel'de Veri Analizi: Yeni Başlayanlardan Uzmanlara Kapsamlı Rehber" içeriği temel alınarak
+                hazırlanmıştır.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // --- VERİ SETLERİ ---
+            const chartDataSets = {
+                regionalSales: {
+                    data: {
+                        labels: ['Akdeniz', 'Ege', 'Marmara'],
+                        datasets: [
+                            { label: 'Elektronik', data: [38000, 40000, 33000], backgroundColor: 'rgba(0, 123, 255, 0.7)' },
+                            { label: 'Gıda', data: [15500, 16000, 24500], backgroundColor: 'rgba(40, 167, 69, 0.7)' },
+                            { label: 'Mobilya', data: [9000, 19500, 22000], backgroundColor: 'rgba(255, 193, 7, 0.7)' }
+                        ]
+                    }
+                },
+                monthlyTrend: {
+                    data: {
+                        labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran'],
+                        datasets: [{
+                            label: 'Toplam Satış',
+                            data: [65000, 59000, 80000, 81000, 95000, 105000],
+                            borderColor: 'rgba(220, 53, 69, 1)',
+                            backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                            tension: 0.2
+                        }]
+                    }
+                },
+                marketShare: {
+                    data: {
+                        labels: ['Elektronik', 'Gıda', 'Mobilya'],
+                        datasets: [{
+                            label: 'Pazar Payı',
+                            data: [76000, 52000, 32500],
+                            backgroundColor: ['rgba(0, 123, 255, 0.7)', 'rgba(40, 167, 69, 0.7)', 'rgba(255, 193, 7, 0.7)']
+                        }]
+                    }
+                },
+                correlation: {
+                    data: {
+                        datasets: [{
+                            label: 'Aylık Veriler',
+                            data: [{ x: 1000, y: 65000 }, { x: 800, y: 59000 }, { x: 2000, y: 80000 }, { x: 1800, y: 81000 }, { x: 2500, y: 95000 }, { x: 2800, y: 105000 }],
+                            backgroundColor: 'rgba(23, 162, 184, 0.7)'
+                        }]
+                    }
+                }
+            };
+
+            const chartScenarios = {
+                regionalSales: { title: "Bölgesel Satış Kırılımı", defaultChart: 'column' },
+                monthlyTrend: { title: "Aylık Satış Trendi", defaultChart: 'line' },
+                marketShare: { title: "Kategori Pazar Payı", defaultChart: 'pie' },
+                correlation: { title: "Reklam Harcaması vs. Satış", defaultChart: 'scatter' }
+            };
+
+            const chartExplanations = {
+                regionalSales: {
+                    column: { type: 'correct', title: "Doğru Seçim!", text: "Sütun grafik, farklı kategorileri (bölgeler) birbiriyle doğrudan kıyaslamak için en iyi yöntemdir.", story: "Grafik, Elektronik kategorisinde Ege bölgesinin, diğer kategorilerde ise Marmara'nın lider olduğunu net bir şekilde gösteriyor." },
+                    bar: { type: 'correct', title: "Doğru Seçim!", text: "Çubuk grafik de kıyaslama için mükemmeldir ve kategori isimleri uzun olduğunda daha iyi okunabilirlik sağlar.", story: "Yatay görünüm, bölge isimlerini rahatça okumamızı ve satış barlarını kolayca karşılaştırmamızı sağlar." },
+                    pie: { type: 'warning', title: "Dikkatli Kullanım!", text: "Pasta grafik, bir bütünün parçalarını gösterir. Bu veri seti birden fazla bütün içerdiği için (her bölge ayrı bir bütün), yanıltıcı olabilir.", story: null },
+                    line: { type: 'warning', title: "Uygun Değil!", text: "Çizgi grafik, zaman içindeki trendi gösterir. Bölgeler arasında bir zaman sıralaması olmadığı için bu grafik yanıltıcı olabilir.", story: null },
+                    area: { type: 'warning', title: "Uygun Değil!", text: "Alan grafiği, zaman içindeki hacimsel değişimi vurgular. Bu veri seti için anlamsız bir görsel oluşturur.", story: null },
+                    scatter: { type: 'warning', title: "Uygun Değil!", text: "Dağılım grafiği, iki sayısal değişken arasındaki ilişkiyi gösterir. Burada bir sayısal, bir metinsel eksen olduğu için kullanılamaz.", story: null }
+                },
+                monthlyTrend: {
+                    line: { type: 'correct', title: "Doğru Seçim!", text: "Çizgi grafik, verinin zaman içindeki trendini (artış/azalış) göstermek için en ideal seçimdir.", story: "Satışların Şubat'ta bir düşüş yaşasa da, Mart ayından itibaren güçlü bir yükseliş trendine girdiğini net bir şekilde görebiliriz. Bu, ikinci çeyrek için olumlu bir sinyaldir." },
+                    area: { type: 'correct', title: "Doğru Seçim!", text: "Alan grafiği de trendi gösterir ancak çizginin altını doldurarak zaman içindeki hacimsel değişimi daha iyi vurgular.", story: "Alan grafiği, sadece trendin yönünü değil, aynı zamanda satış hacminin aylar boyunca nasıl biriktiğini ve büyüdüğünü de görselleştirir." },
+                    column: { type: 'correct', title: "Alternatif Seçim!", text: "Sütun grafik de aylar arası kıyaslama yapmak için kullanılabilir, ancak çizgi grafik trendi daha akıcı bir şekilde anlatır.", story: "Sütunlar, her ayın satış rakamını bağımsız bir değer olarak vurgular. Özellikle tek bir aydaki ani bir sıçramayı göstermek için etkili olabilir." },
+                    bar: { type: 'warning', title: "Pek Uygun Değil!", text: "Çubuk grafik zaman akışını (soldan sağa) doğal bir şekilde gösteremediği için trend analizinde genellikle tercih edilmez.", story: null },
+                    pie: { type: 'warning', title: "Uygun Değil!", text: "Pasta grafik, bir bütünün anlık görüntüsünü verir. Zaman içindeki değişimi göstermek için tamamen yanlış bir seçimdir.", story: null },
+                    scatter: { type: 'warning', title: "Uygun Değil!", text: "Bu veri setinde ikinci bir sayısal değişken olmadığı için dağılım grafiği kullanılamaz.", story: null }
+                },
+                marketShare: {
+                    pie: { type: 'correct', title: "Doğru Seçim!", text: "Pasta grafik, bir bütünün (toplam satışların) parçalara (kategorilere) nasıl ayrıldığını göstermek için mükemmeldir.", story: "Satışların en büyük parçasının 'Elektronik' olduğunu, onu 'Gıda' ve son olarak 'Mobilya'nın takip ettiğini net bir şekilde görebiliriz." },
+                    bar: { type: 'correct', title: "İyi Bir Alternatif!", text: "Çubuk grafik de pazar paylarını kıyaslamak için kullanılabilir. Hangi dilimin daha büyük olduğunu anlamak bazen çubuk grafikte daha kolaydır.", story: "Çubuklar, kategoriler arasındaki büyüklük farkını daha hassas bir şekilde karşılaştırmamıza olanak tanır." },
+                    column: { type: 'correct', title: "İyi Bir Alternatif!", text: "Sütun grafik de pazar paylarını kıyaslamak için iyi bir seçenektir.", story: "Sütunlar da çubuklar gibi, kategoriler arasındaki farkları net bir şekilde gösterir." },
+                    line: { type: 'warning', title: "Uygun Değil!", text: "Bu veride bir zaman boyutu olmadığı için çizgi grafik anlamsızdır.", story: null },
+                    area: { type: 'warning', title: "Uygun Değil!", text: "Bu veride bir zaman boyutu olmadığı için alan grafiği anlamsızdır.", story: null },
+                    scatter: { type: 'warning', title: "Uygun Değil!", text: "Bu veri setinde ikinci bir sayısal değişken olmadığı için dağılım grafiği kullanılamaz.", story: null }
+                },
+                correlation: {
+                    scatter: { type: 'correct', title: "Doğru Seçim!", text: "Dağılım grafiği, iki sayısal değişken (Reklam Harcaması ve Satış) arasındaki ilişkiyi (korelasyonu) göstermek için en iyi yöntemdir.", story: "Grafik, reklam harcaması arttıkça satışların da artma eğiliminde olduğunu gösteriyor. Bu, iki değişken arasında pozitif bir korelasyon olduğuna işaret eder." },
+                    line: { type: 'warning', title: "Yanıltıcı Olabilir!", text: "Eğer X ekseni zamanı temsil etmiyorsa, noktaları bir çizgiyle birleştirmek altta yatan bir trend olduğu yanılgısını yaratabilir.", story: null },
+                    bar: { type: 'warning', title: "Uygun Değil!", text: "Çubuk grafik, kategorik bir eksenle kullanılır. İki sayısal eksen arasındaki ilişkiyi göstermek için uygun değildir.", story: null },
+                    column: { type: 'warning', title: "Uygun Değil!", text: "Sütun grafik de kategorik bir eksenle kullanılır ve bu senaryo için uygun değildir.", story: null },
+                    pie: { type: 'warning', title: "Uygun Değil!", text: "Pasta grafik, bu tür bir ilişki analizi için tamamen anlamsızdır.", story: null },
+                    area: { type: 'warning', title: "Uygun Değil!", text: "Alan grafiği de bu senaryo için anlamsızdır.", story: null }
+                }
+            };
+
+            const ctx = document.getElementById('pivot-chart-canvas').getContext('2d');
+            const scenarioSelect = document.getElementById('chart-scenario-select');
+            const buttons = document.querySelectorAll('.chart-controls .btn');
+            const explanationBox = document.getElementById('chart-explanation-box');
+            const explanationTitle = document.getElementById('explanation-title');
+            const explanationText = document.getElementById('explanation-text');
+            const chartTitleDisplay = document.getElementById('chart-title-display');
+            const analystStoryComment = document.getElementById('analyst-story-comment');
+            const analystStoryText = document.getElementById('analyst-story-text');
+            let myPivotChart;
+
+            function loadScenario(scenarioKey) {
+                const scenario = chartScenarios[scenarioKey];
+                updateChart(scenario.defaultChart);
+            }
+
+            function updateChart(type) {
+                if (myPivotChart) { myPivotChart.destroy(); }
+
+                buttons.forEach(btn => btn.classList.remove('active'));
+                document.getElementById(`btn-${type}`).classList.add('active');
+
+                const scenarioKey = scenarioSelect.value;
+                const scenario = chartScenarios[scenarioKey];
+                const scenarioData = chartDataSets[scenarioKey];
+                const explanation = chartExplanations[scenarioKey][type];
+
+                chartTitleDisplay.textContent = `${scenario.title} (${document.getElementById(`btn-${type}`).textContent.trim()})`;
+
+                explanationTitle.textContent = explanation.title;
+                explanationText.textContent = explanation.text;
+                explanationBox.className = `analyst-tip feedback-${explanation.type}`;
+
+                if (explanation.story) {
+                    analystStoryComment.style.display = 'block';
+                    analystStoryText.textContent = explanation.story;
+                } else {
+                    analystStoryComment.style.display = 'none';
+                }
+
+                let chartData = JSON.parse(JSON.stringify(scenarioData.data));
+                let chartOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } }
+                };
+                let chartType = type;
+
+                if (type === 'column') chartType = 'bar';
+                if (type === 'stacked-column') chartType = 'bar';
+                if (type === 'area') chartType = 'line';
+
+                switch (type) {
+                    case 'stacked-column':
+                        chartOptions.scales = { x: { stacked: true }, y: { stacked: true, beginAtZero: true } };
+                        break;
+                    case 'bar':
+                        chartOptions.indexAxis = 'y';
+                        chartOptions.scales = { x: { beginAtZero: true } };
+                        break;
+                    case 'area':
+                        chartData.datasets.forEach(ds => ds.fill = true);
+                        chartOptions.scales = { y: { beginAtZero: true } };
+                        break;
+                    case 'pie':
+                    case 'scatter':
+                        delete chartOptions.scales;
+                        break;
+                    default:
+                        chartOptions.scales = { y: { beginAtZero: true } };
+                        break;
+                }
+
+                myPivotChart = new Chart(ctx, {
+                    type: chartType,
+                    data: chartData,
+                    options: chartOptions
+                });
+            }
+
+            scenarioSelect.addEventListener('change', (e) => loadScenario(e.target.value));
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const type = e.currentTarget.id.replace('btn-', '');
+                    updateChart(type);
+                });
+            });
+
+            loadScenario('regionalSales');
+        });
+    </script>
+
+</body>
+
+</html>

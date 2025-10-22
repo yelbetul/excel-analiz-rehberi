@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 4: Veri Görselleştirme Stüdyosu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <style>
+        .four-areas-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .area-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .area-box h4 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+
+        .chart-example-canvas {
+            width: 100% !important;
+            max-height: 180px;
+            margin-bottom: 15px;
+        }
+
+        .analyst-comment {
+            font-size: 0.9em;
+            font-style: italic;
+            color: #6c757d;
+            margin-top: auto;
+            border-top: 1px solid #e9ecef;
+            padding-top: 10px;
+        }
+
+        .studio-container {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .studio-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .studio-sidebar {
+            flex: 1;
+            min-width: 300px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            align-self: flex-start;
+            /* YENİ: Görev kutusunun yapışkan olması için */
+            position: sticky;
+            top: 20px;
+        }
+
+        .studio-sidebar h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .studio-main {
+            flex: 2.5;
+            min-width: 500px;
+        }
+
+        #chart-title-display {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            color: #343a40;
+        }
+
+        .chart-canvas-container {
+            position: relative;
+            height: 450px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-type-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .chart-type-selector .btn {
+            background-color: #f8f9fa;
+            color: #495057;
+            border: 1px solid #ced4da;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .chart-type-selector .btn.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        #analyst-story-comment {
+            margin-top: 20px;
+            border-left-color: #17a2b8;
+        }
+
+        #analyst-story-comment h4 {
+            color: #0c5460;
+        }
+
+        #studio-feedback {
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+            font-weight: 500;
+            display: none;
+        }
+
+        #studio-feedback.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        #studio-feedback.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            display: block;
+        }
+
+        .pivot-field-list-container {
+            padding: 0;
+        }
+
+        ul.pivot-fields {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li.pivot-field {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            cursor: grab;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        li.pivot-field:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        li.pivot-field.dragging {
+            opacity: 0.5;
+        }
+
+        .drop-zone-container {
+            border: 1px solid #ddd;
+            background: #fcfcfc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .drop-zone-container strong {
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        div.drop-zone {
+            min-height: 40px;
+            background: #f0f0f0;
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+            padding: 5px;
+        }
+
+        div.drop-zone.drag-over {
+            background: #e6f7ff;
+            border-color: #007bff;
+        }
+
+        .pivot-field-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #007bff;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 4px;
+            cursor: grab;
+        }
+
+        .aggregation-select {
+            background: #fff;
+            color: #007bff;
+            border: 1px solid #007bff;
+            border-radius: 10px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        /* ===================================
+           YENİ EKLENEN STİLLER (MODUL 3'TEN)
+           =================================== */
+
+        .workshop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .pivot-task-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+        }
+
+        .form-control {
+             border: 1px solid #ced4da; border-radius: .25rem; padding: .375rem .75rem;
+        }
+        #chart-scenario-select { flex-grow: 1; max-width: 500px; }
+
+
+        /* AKILLI REHBERLİK ANİMASYONU */
+        .highlight-guidance {
+            animation: pulse 1.5s infinite;
+        }
+        
+        .chart-type-selector .btn.highlight-guidance {
+             animation: pulse-success 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 123, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+        }
+        
+        @keyframes pulse-success {
+            0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+        }
+
+        /* KONFETİ ANİMASYONU */
+        #confetti-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 9999;
+        }
+        .confetti {
+            position: absolute;
+            width: 8px; height: 16px;
+            opacity: 0;
+            animation: fall 3s ease-in-out forwards;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotateZ(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotateZ(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">Excel Analiz Laboratuvarı</a>
+            <a href="index.html#quiz-start" class="nav-link">Anasayfaya Dön</a>
+        </div>
+    </nav>
+
+    <section id="module-4-charts" class="module" style="padding-top: 50px;">
+        <div class="container">
+            <header class="module-header">
+                <h2>Modül 4: Veri Görselleştirme Stüdyosu</h2>
+                <h1>Grafiklerle Hikaye Anlatımı</h1>
+            </header>
+
+            <section class="content-section">
+                <h3>Sayıların Ötesi: İçgörüleri Konuşturmak</h3>
+                <p>Analizlerinizin sonuçlarını etkili bir şekilde sunmak, en az analizin kendisi kadar önemlidir. Bu
+                    interaktif stüdyoda, ham veriyi alıp, farklı grafik türleri ve kırılımlar deneyerek nasıl anlamlı
+                    "veri hikayeleri" oluşturabileceğinizi keşfedeceksiniz.</p>
+            </section>
+
+            <section class="content-section">
+                <h3>Doğru Grafik Türünü Seçme Sanatı</h3>
+                <p>Her veri seti veya gösterilmek istenen bilgi, kendine uygun bir grafik türüyle daha anlaşılır hale
+                    gelir. Yanlış grafik seçimi, hikayenizi gizleyebilir. Grafiği seçerken kendinize sormanız gereken
+                    ilk soru şudur: <strong>“Veride neyi vurgulamak istiyorum?”</strong></p>
+                <div class="four-areas-layout">
+                    <div class="area-box">
+                        <canvas id="chart-example-column" class="chart-example-canvas"></canvas>
+                        <h4>Sütun Grafik</h4>
+                        <p><strong>Kullanım:</strong> Kategoriler arası karşılaştırma yapmak için idealdir.</p>
+                        <p class="analyst-comment"><strong>Analist Yorumu:</strong> "Marmara'nın en yüksek satışa sahip
+                            olduğu net bir şekilde görülüyor."</p>
+                    </div>
+                    <div class="area-box">
+                        <canvas id="chart-example-bar" class="chart-example-canvas"></canvas>
+                        <h4>Çubuk Grafik</h4>
+                        <p><strong>Kullanım:</strong> Çok sayıda kategori veya uzun etiketler olduğunda okunabilirliği
+                            artırır.</p>
+                        <p class="analyst-comment"><strong>Analist Yorumu:</strong> "Satış Temsilcisi Ayşe Yılmaz'ın
+                            performansı diğerlerinden sıyrılıyor."</p>
+                    </div>
+                    <div class="area-box">
+                        <canvas id="chart-example-line" class="chart-example-canvas"></canvas>
+                        <h4>Çizgi Grafik</h4>
+                        <p><strong>Kullanım:</strong> Zaman içindeki trendleri ve değişimi göstermek için kullanılır.
+                        </p>
+                        <p class="analyst-comment"><strong>Analist Yorumu:</strong> "Satışlarda Mart ayından itibaren
+                            belirgin bir yükseliş trendi var."</p>
+                    </div>
+                    <div class="area-box">
+                        <canvas id="chart-example-pie" class="chart-example-canvas"></canvas>
+                        <h4>Pasta Grafik</h4>
+                        <p><strong>Kullanım:</strong> Bir bütünün parçalarını oransal olarak göstermek içindir.</p>
+                        <p class="analyst-comment"><strong>Analist Yorumu:</strong> "Toplam gelirin en büyük dilimini
+                            Elektronik kategorisi oluşturuyor."</p>
+                    </div>
+                </div>
+            </section>
+
+            <hr style="margin: 40px 0;">
+
+            <h3>Şimdi Uygulama Zamanı: İnteraktif Analiz Panosu</h3>
+            <p>Aşağıdaki panoda, farklı analiz görevlerini seçin ve akıllı rehberin yardımıyla alanları doğru bölgelere sürükleyerek veri hikayenizi oluşturun.</p>
+
+            <div class="studio-container">
+                
+                <div class="workshop-header">
+                    <div class="pivot-task-selector">
+                        <label for="chart-scenario-select"><strong>Aktif Görev:</strong></label>
+                        <select id="chart-scenario-select" class="form-control"></select>
+                    </div>
+                    <button id="reset-chart-task-btn" class="btn btn-secondary">Görevi Sıfırla</button>
+                </div>
+                <div id="chart-story-box" class="analyst-tip" style="margin-top: 15px; display: none;"></div>
+
+
+                <div class="studio-layout" style="margin-top: 20px;">
+                    <aside class="studio-sidebar">
+                        
+                        <div id="chart-task-instructions" class="analyst-tip" style="margin-bottom: 25px;">
+                            <h4 id="chart-task-title">Görev Yükleniyor...</h4>
+                            <p><strong>Adım:</strong> Lütfen bekleyin...</p>
+                        </div>
+                        
+                        <div class="control-group">
+                            <h4>1. Veri Alanları</h4>
+                            <div class="pivot-field-list-container">
+                                <ul id="chart-field-list" class="pivot-fields"></ul>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <h4>2. Grafik Eksenleri</h4>
+                            <div class="drop-zone-container"><strong>X-EKSENİ (Kategoriler)</strong>
+                                <div class="drop-zone" id="chart-drop-x"></div>
+                            </div>
+                            <div class="drop-zone-container"><strong>Y-EKSENİ (Değerler)</strong>
+                                <div class="drop-zone" id="chart-drop-y"></div>
+                            </div>
+                            <div class="drop-zone-container"><strong>SERİLER (Kırılım / Legend)</strong>
+                                <div class="drop-zone" id="chart-drop-series"></div>
+                            </div>
+                        </div>
+                        <div id="studio-feedback"></div>
+                    </aside>
+
+                    <main class="studio-main">
+                        <h3 id="chart-title-display"></h3>
+                        <div class="chart-type-selector">
+                            <button class="btn" data-chart-type="column"><i class="fas fa-chart-bar"></i> Sütun</button>
+                            <button class="btn" data-chart-type="bar"><i class="fas fa-align-left"></i> Çubuk</button>
+                            <button class="btn" data-chart-type="line"><i class="fas fa-chart-line"></i> Çizgi</button>
+                            <button class="btn" data-chart-type="pie"><i class="fas fa-chart-pie"></i> Pasta</button>
+                            <button class="btn" data-chart-type="scatter"><i class="fas fa-braille"></i>
+                                Dağılım</button>
+                        </div>
+                        <div class="chart-canvas-container">
+                            <canvas id="chart-output-canvas"></canvas>
+                        </div>
+                        <div class="analyst-tip" id="analyst-story-comment" style="display: none;">
+                            <h4><i class="fas fa-lightbulb"></i> Verinin Anlattığı Hikaye</h4>
+                            <p id="analyst-story-text"></p>
+                        </div>
+                    </main>
+                </div>
+            </div>
+
+            <nav class="page-nav">
+                <a href="modul3-3.html" class="btn btn-secondary">&larr; Önceki Konu: Pivot Grafikler</a>
+                <a href="modul5-1.html" class="btn btn-primary">Sonraki Modül: Hatalar & İpuçları &rarr;</a>
+            </nav>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Bu site, "Excel'de Veri Analizi: Yeni Başlayanlardan Uzmanlara Kapsamlı Rehber" içeriği temel alınarak
+                hazırlanmıştır.</p>
+        </div>
+    </footer>
+
+    <div id="confetti-container"></div>
+
+    <script src="js/modul4.js"></script>
+
+</body>
+
+</html>

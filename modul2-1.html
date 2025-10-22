@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 2: Formül Kütüphanesi - Excel Analiz Laboratuvarı</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">Excel Analiz Laboratuvarı</a>
+            <a href="index.html#quiz-start" class="nav-link">Anasayfaya Dön</a>
+        </div>
+    </nav>
+
+    <main class="module-page container">
+
+        <header class="module-header">
+            <h2>Modül 2: Formül Kütüphanesi</h2>
+            <h1>En Çok Kullanılan Analitik Formüller (Uygulamalı)</h1>
+        </header>
+
+        <!-- YENİ BÖLÜM: Modül Girişi -->
+        <section class="content-section">
+            <h3>Neden Formüller?</h3>
+            <p>Excel’de verileri derinlemesine analiz etmek için fonksiyonları ustaca kullanmayı öğrenmek şarttır. Bu bölümde, bir veri analistinin en çok ihtiyaç duyacağı fonksiyonları kategoriler halinde ele alacağız. Amacımız, iş hayatında karşılaşacağınız sorunların %80'ini çözebilecek, en kritik %20'lik fonksiyon setini size uygulamalı olarak öğretmektir.</p>
+        </section>
+
+        <div class="library-layout">
+
+            <aside class="library-sidebar">
+                <h4>Formül Kategorileri</h4>
+
+                <nav class="formula-nav">
+                    <p>1. Mantıksal Fonksiyonlar</p>
+                    <ul>
+                        <li><a href="#formula-if" data-formula="if">IF (EĞER)</a></li>
+                        <li><a href="#formula-ifs" data-formula="ifs">IFS (ÇOKEĞER)</a></li>
+                        <li><a href="#formula-and-or" data-formula="and-or">AND / OR (VE / YADA)</a></li>
+                        <li><a href="#formula-iferror" data-formula="iferror">IFERROR (EĞERHATA)</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="formula-nav">
+                    <p>2. Arama ve Başvuru</p>
+                    <ul>
+                        <li><a href="#formula-xlookup" data-formula="xlookup">XLOOKUP</a></li>
+                        <li><a href="#formula-vlookup" data-formula="vlookup">VLOOKUP (DÜŞEYARA)</a></li>
+                        <li><a href="#formula-index-match" data-formula="index-match">INDEX & MATCH</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="formula-nav">
+                    <p>3. Özetleme ve İstatistik</p>
+                    <ul>
+                        <li><a href="#formula-sumifs" data-formula="sumifs">SUMIFS (ÇOKETOPLA)</a></li>
+                        <li><a href="#formula-sumif" data-formula="sumif">SUMIF (ETOPLA)</a></li>
+                        <li><a href="#formula-countifs" data-formula="countifs">COUNTIFS (ÇOKEĞERSAY)</a></li>
+                        <li><a href="#formula-averageifs" data-formula="averageifs">AVERAGEIFS</a></li>
+                        <li><a href="#formula-subtotal" data-formula="subtotal">SUBTOTAL (ALTTOPLAM)</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="formula-nav">
+                    <p>4. Metin İşleme</p>
+                    <ul>
+                        <li><a href="#formula-left-right" data-formula="left-right">LEFT / RIGHT</a></li>
+                        <li><a href="#formula-mid" data-formula="mid">MID (PARÇAAL)</a></li>
+                        <li><a href="#formula-find-search" data-formula="find-search">FIND / SEARCH (BUL)</a></li>
+                        <li><a href="#formula-trim" data-formula="trim">TRIM (KIRP)</a></li>
+                        <li><a href="#formula-textjoin" data-formula="textjoin">TEXTJOIN</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="formula-nav">
+                    <p>5. Tarih ve Saat</p>
+                    <ul>
+                        <li><a href="#formula-today-now" data-formula="today-now">TODAY / NOW</a></li>
+                        <li><a href="#formula-year-month-day" data-formula="year-month-day">YEAR / MONTH / DAY</a></li>
+                        <li><a href="#formula-eomonth" data-formula="eomonth">EOMONTH (SERİAY)</a></li>
+                        <li><a href="#formula-datedif" data-formula="datedif">DATEDIF (ETARİHLİ)</a></li>
+                        <li><a href="#formula-networkdays" data-formula="networkdays">NETWORKDAYS</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="formula-nav">
+                    <p>6. Dinamik Dizi Formülleri</p>
+                    <ul>
+                        <li><a href="#formula-unique" data-formula="unique">UNIQUE (BENZERSİZ)</a></li>
+                        <li><a href="#formula-filter" data-formula="filter">FILTER (FİLTRE)</a></li>
+                        <li><a href="#formula-sort" data-formula="sort">SORT (SIRALA)</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <div class="library-content">
+
+                <div id="formula-detail-content">
+
+                    <!-- GÜNCELLENMİŞ KARŞILAMA EKRANI -->
+                    <h3>Formül Kütüphanesine Hoş Geldin!</h3>
+                    <p>Excel'in yüzlerce fonksiyonu arasından bir veri analistinin en çok kullanacağı kritik formülleri burada topladık. Lütfen soldaki menüden hakkında bilgi almak ve interaktif olarak denemek istediğiniz bir formülü seçin.</p>
+
+                    <div class="analyst-tip">
+                        <h4>Nasıl Çalışır?</h4>
+                        <p>Bir formül seçtiğinizde, bu alanda o formülün tam açıklaması, söz dizimi (syntax), analist notları ve en önemlisi, formülü canlı olarak test edebileceğiniz <strong>uygulamalı bir editör</strong> görünecektir.</p>
+                        <p>Her formül için önce statik "Önce/Sonra" örneğini inceleyebilir, ardından "Canlı Formül Editörü" ile görevi tamamlamaya çalışabilirsiniz. Sistem, siz yazarken size adım adım ipuçları ve hata mesajları vererek rehberlik edecektir.</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <nav class="page-nav">
+            <a href="modul1-2.html" class="btn btn-secondary">&larr; Önceki Modül: Temeller</a>
+            <a href="modul3-1.html" class="btn btn-primary">Sonraki Modül: Pivot Table Atölyesi &rarr;</a>
+        </nav>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Bu site, "Excel'de Veri Analizi: Yeni Başlayanlardan Uzmanlara Kapsamlı Rehber" içeriği temel alınarak hazırlanmıştır.</p>
+        </div>
+    </footer>
+
+    <!-- Modül 2'nin JS dosyası. İsmini 'modul2.js' olarak değiştirmek daha doğru olabilir. -->
+    <script src="js/modul2.js"></script> 
+</body>
+
+</html>

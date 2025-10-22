@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ek: VBA (Makro) ile Otomasyon</title>
+    <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .tip-card {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-left: 5px solid #6f42c1; /* VBA için mor tema */
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+        .tip-card h3 {
+            margin-top: 0;
+            color: #492a7c;
+            font-size: 1.4em;
+        }
+        .tip-card h3 i {
+            margin-right: 10px;
+            color: #6f42c1;
+        }
+        pre {
+            background-color: #282c34; /* Koyu tema */
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        pre code .keyword { color: #c678dd; } /* Sub, For, If, etc. */
+        pre code .comment { color: #5c6370; font-style: italic; } /* ' Comments */
+        pre code .string { color: #98c379; } /* "Strings" */
+        pre code .object { color: #61afef; } /* Workbook, Worksheet, etc. */
+        pre code .property { color: #e5c07b; } /* .Name, .Value, etc. */
+        
+        .vba-examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        .vba-example {
+            border-top: 2px solid #e9ecef;
+            padding-top: 15px;
+        }
+        .vba-example h4 {
+            font-size: 1.1em;
+            color: #343a40;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">Excel Analiz Laboratuvarı</a>
+            <a href="index.html#quiz-start" class="nav-link">Anasayfaya Dön</a>
+        </div>
+    </nav>
+
+    <section id="module-6-vba" class="module" style="padding-top: 50px;">
+        <div class="container">
+            <header class="module-header">
+                <h2>Ek Bölüm: Otomasyon</h2>
+                <h1>Temel Düzeyde VBA (Makro) ile Otomasyon</h1>
+            </header>
+
+            <section class="content-section">
+                <p>Veri analizi yaparken çoğu zaman Excel’in sunduğu araçlar yeterli olacaktır. Ancak bazı durumlarda tekrarlayan işlemleri hızlandırmak veya Excel’in sınırlarını aşmak için VBA (Visual Basic for Applications) ile makro yazmak gerekebilir. Bu ek bölümde, kodlama deneyimi olmayanlar için bile anlaşılabilir şekilde temel makro kavramlarına değineceğiz.</p>
+            </section>
+            
+            <div class="tip-card">
+                <h3><i class="fas fa-robot"></i>Makro Nedir?</h3>
+                <p>Kısaca, Excel’de yaptığınız işlemleri kaydedip tek bir komutla tekrar etmeyi sağlayan bir programcıktır. Excel’in <strong>Makro Kaydedici (Macro Recorder)</strong> özelliği, yaptığınız tıklamaları, girilen değerleri vb. Visual Basic kodu olarak kaydeder ve bunu çalıştırdığınızda aynı adımları otomatik uygular.</p>
+                <div class="analyst-tip">
+                    <h4>Neden Kullanmalı?</h4>
+                    <p>Her ay gelen bir ham veriyi temizleyip rapor formatına getirmek için 10 adım uyguluyorsanız, bunları bir makroya kaydedip her ay tek tuşla yapabilirsiniz. Makrolar, rutin işleri otomatikleştirerek <strong>zamandan tasarruf sağlar</strong> ve insan kaynaklı <strong>hataları azaltır</strong>.</p>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <h3><i class="fas fa-code"></i>Analistler İçin Pratik VBA Kod Örnekleri</h3>
+                <p>Makro Kaydedici harika bir başlangıç noktasıdır, ancak bazen kodu elle yazmak daha esnek çözümler sunar. İşte bir veri analistinin işini kolaylaştıracak birkaç temel VBA kodu örneği:</p>
+                
+                <div class="vba-examples-grid">
+                    
+                    <div class="vba-example">
+                        <h4>Örnek 1: Tüm Pivot Tabloları Güncelle</h4>
+                        <p>Dosyanızda birden fazla Pivot Table varsa, hepsini tek tek yenilemek yerine bu makroyu çalıştırabilirsiniz.</p>
+                        <pre><code class="language-vba"><span class="keyword">Sub</span> TumPivotlariYenile()
+    <span class="comment">' Bu makro, çalışma kitabındaki tüm PivotTable'ları günceller.</span>
+    <span class="keyword">Dim</span> ws <span class="keyword">As</span> <span class="object">Worksheet</span>
+    <span class="keyword">Dim</span> pt <span class="keyword">As</span> <span class="object">PivotTable</span>
+
+    <span class="object">Application</span>.<span class="property">ScreenUpdating</span> = <span class="keyword">False</span> <span class="comment">' Ekran titremesini önle</span>
+    
+    <span class="keyword">For Each</span> ws <span class="keyword">In</span> <span class="object">ThisWorkbook</span>.<span class="property">Worksheets</span>
+        <span class="keyword">For Each</span> pt <span class="keyword">In</span> ws.<span class="property">PivotTables</span>
+            pt.<span class="property">RefreshTable</span>
+        <span class="keyword">Next</span> pt
+    <span class="keyword">Next</span> ws
+    
+    <span class="object">Application</span>.<span class="property">ScreenUpdating</span> = <span class="keyword">True</span>
+    <span class="object">MsgBox</span> <span class="string">"Tüm Pivot Tablolar güncellendi!"</span>
+<span class="keyword">End Sub</span></code></pre>
+                        <div class="analyst-tip">
+                            <h4>Nasıl Kullanılır?</h4>
+                            <p>Bu kodu VBA editöründe bir modüle yapıştırın. <strong>Alt + F8</strong> tuşlarına basıp açılan pencereden "TumPivotlariYenile" makrosunu seçin ve "Çalıştır"a tıklayın. Makro bittiğinde bir onay mesajı alacaksınız.</p>
+                        </div>
+                    </div>
+
+                    <div class="vba-example">
+                        <h4>Örnek 2: Çalışma Sayfaları İçin Dizin Oluştur</h4>
+                        <p>Çok sayıda sayfanız varsa, bu makro ilk sayfaya tüm sayfa adlarını listeler ve onlara birer köprü (link) oluşturur.</p>
+                        <pre><code class="language-vba"><span class="keyword">Sub</span> SayfaDiziniOlustur()
+    <span class="comment">' İlk sayfaya diğer tüm sayfaların linkli bir listesini oluşturur.</span>
+    <span class="keyword">Dim</span> ws <span class="keyword">As</span> <span class="object">Worksheet</span>
+    <span class="keyword">Dim</span> i <span class="keyword">As</span> <span class="keyword">Integer</span>
+    i = 1
+
+    <span class="object">Sheets</span>(1).<span class="property">Cells</span>.<span class="property">Clear</span> <span class="comment">' İlk sayfayı temizle</span>
+    <span class="object">Sheets</span>(1).<span class="property">Cells</span>(i, 1).<span class="property">Value</span> = <span class="string">"Sayfa Dizini"</span>
+    
+    <span class="keyword">For Each</span> ws <span class="keyword">In</span> <span class="object">ThisWorkbook</span>.<span class="property">Worksheets</span>
+        <span class="keyword">If</span> ws.<span class="property">Name</span> &lt;&gt; <span class="object">Sheets</span>(1).<span class="property">Name</span> <span class="keyword">Then</span>
+            i = i + 1
+            <span class="object">Sheets</span>(1).<span class="property">Hyperlinks</span>.<span class="property">Add</span> Anchor:=<span class="object">Sheets</span>(1).<span class="property">Cells</span>(i, 1), _
+                                Address:=<span class="string">""</span>, _
+                                SubAddress:=<span class="string">"'"</span> & ws.<span class="property">Name</span> & <span class="string">"'!A1"</span>, _
+                                TextToDisplay:=ws.<span class="property">Name</span>
+        <span class="keyword">End If</span>
+    <span class="keyword">Next</span> ws
+<span class="keyword">End Sub</span></code></pre>
+                        <div class="analyst-tip">
+                            <h4>Nasıl Kullanılır?</h4>
+                            <p>Kodu bir modüle yapıştırın ve çalıştırın. <strong>Uyarı:</strong> Bu makro, kitabınızın en başındaki (ilk sıradaki) sayfanın tüm içeriğini silerek yerine sayfa listesini oluşturur. Önemli bir sayfanın ilk sırada olmadığından emin olun.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="vba-example">
+                        <h4>Örnek 3: Filtrelenmiş Veriyi Kopyala</h4>
+                        <p>Bir tablodaki veriyi belirli bir kritere göre filtreler ve sadece görünür olan sonuçları yeni bir sayfaya kopyalar.</p>
+                        <pre><code class="language-vba"><span class="keyword">Sub</span> ElektronikSatislariniKopyala()
+    <span class="comment">' "Veri" sayfasındaki tabloyu filtreler ve sonucu yeni sayfaya kopyalar.</span>
+    <span class="keyword">Dim</span> wsVeri <span class="keyword">As</span> <span class="object">Worksheet</span>, wsRapor <span class="keyword">As</span> <span class="object">Worksheet</span>
+    <span class="keyword">Set</span> wsVeri = <span class="object">ThisWorkbook</span>.<span class="property">Sheets</span>(<span class="string">"Veri"</span>)
+    <span class="keyword">Set</span> wsRapor = <span class="object">ThisWorkbook</span>.<span class="property">Sheets</span>.<span class="property">Add</span>
+    wsRapor.<span class="property">Name</span> = <span class="string">"Elektronik Raporu"</span>
+
+    wsVeri.<span class="property">AutoFilterMode</span> = <span class="keyword">False</span> <span class="comment">' Önceki filtreleri temizle</span>
+    
+    <span class="comment">' 3. sütuna göre "Elektronik" filtresi uygula</span>
+    wsVeri.<span class="property">Range</span>(<span class="string">"A1"</span>).<span class="property">AutoFilter</span> Field:=3, Criteria1:=<span class="string">"Elektronik"</span>
+    
+    <span class="comment">' Filtrelenmiş veriyi kopyala</span>
+    wsVeri.<span class="property">UsedRange</span>.<span class="property">SpecialCells</span>(xlCellTypeVisible).<span class="property">Copy</span> wsRapor.<span class="property">Range</span>(<span class="string">"A1"</span>)
+    
+    wsVeri.<span class="property">AutoFilterMode</span> = <span class="keyword">False</span>
+    wsRapor.<span class="property">Columns</span>.<span class="property">AutoFit</span>
+<span class="keyword">End Sub</span></code></pre>
+                        <div class="analyst-tip">
+                            <h4>Nasıl Kullanılır?</h4>
+                            <p>Bu makroyu çalıştırmadan önce, dosyanızda tam olarak "Veri" adında bir sayfa olduğundan ve bu sayfadaki tablonun başlıklarının 1. satırda yer aldığından emin olun. Makro, "Elektronik Raporu" adında yeni bir sayfa oluşturup sonuçları oraya yapıştıracaktır.</p>
+                        </div>
+                    </div>
+
+                    <div class="vba-example">
+                        <h4>Örnek 4: Kendi Özel Fonksiyonunu Yazmak (UDF)</h4>
+                        <p>Excel'de olmayan bir fonksiyona mı ihtiyacınız var? VBA ile kendi fonksiyonunuzu (User-Defined Function) yazıp normal bir formül gibi kullanabilirsiniz.</p>
+                        <pre><code class="language-vba"><span class="keyword">Function</span> TRtoEN(text <span class="keyword">As</span> <span class="keyword">String</span>) <span class="keyword">As</span> <span class="keyword">String</span>
+    <span class="comment">' Bu fonksiyon, Türkçe karakterleri İngilizce karşılıkları ile değiştirir.</span>
+    <span class="keyword">Dim</span> FindChars <span class="keyword">As</span> <span class="keyword">Variant</span>, ReplaceChars <span class="keyword">As</span> <span class="keyword">Variant</span>, i <span class="keyword">As</span> <span class="keyword">Integer</span>
+    
+    FindChars = Array(<span class="string">"ç"</span>, <span class="string">"ğ"</span>, <span class="string">"ı"</span>, <span class="string">"ö"</span>, <span class="string">"ş"</span>, <span class="string">"ü"</span>, <span class="string">"Ç"</span>, <span class="string">"Ğ"</span>, <span class="string">"İ"</span>, <span class="string">"Ö"</span>, <span class="string">"Ş"</span>, <span class="string">"Ü"</span>)
+    ReplaceChars = Array(<span class="string">"c"</span>, <span class="string">"g"</span>, <span class="string">"i"</span>, <span class="string">"o"</span>, <span class="string">"s"</span>, <span class="string">"u"</span>, <span class="string">"C"</span>, <span class="string">"G"</span>, <span class="string">"I"</span>, <span class="string">"O"</span>, <span class="string">"S"</span>, <span class="string">"U"</span>)
+    
+    TRtoEN = text
+    <span class="keyword">For</span> i = <span class="object">LBound</span>(FindChars) <span class="keyword">To</span> <span class="object">UBound</span>(FindChars)
+        TRtoEN = <span class="object">Replace</span>(TRtoEN, FindChars(i), ReplaceChars(i))
+    <span class="keyword">Next</span> i
+<span class="keyword">End Function</span></code></pre>
+                        <div class="analyst-tip">
+                            <h4>Nasıl Kullanılır?</h4>
+                            <p>Bu kodu bir VBA modülüne yapıştırdıktan sonra, herhangi bir Excel hücresine <code>=TRtoEN(A1)</code> yazarak A1 hücresindeki "Şelâle" metnini "Selale" olarak çevirebilirsiniz. Artık bu, Excel'in yerleşik bir formülü gibi çalışır.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="margin: 40px 0;">
+
+            <!-- Kapanış Bölümü -->
+            <section class="content-section">
+                <h2>Yolculuğun Sonu: Neler Öğrendik?</h2>
+                <p>Bu yolculuğun sonuna geldik. Buraya kadar, bir veri analistinin Excel’de ustalaşması için gereken hemen her konuya değinmeye çalıştık:</p>
+                <ul>
+                    <li>Excel arayüzünün doğru ayarlarından ve temiz veri yapılarından,</li>
+                    <li>Temel veri düzenleme tekniklerine (sıralama, filtreleme),</li>
+                    <li>En çok kullanılan formül ve fonksiyonların interaktif uygulamalarından,</li>
+                    <li>Pivot Table ve Grafiklerle veriyi anlamlı hikayelere dönüştürmeye,</li>
+                    <li>Ve yapılan yaygın hatalara kadar geniş bir yelpazeyi örneklerle ele aldık.</li>
+                </ul>
+                <p>Artık elinizin altında, “Excel’de şunu nasıl yaparım?” diye düşündüğünüzde başvurabileceğiniz kapsamlı bir kaynak var. Unutmayın, öğrendikçe uygulayın; her bölümdeki örnekleri kendiniz deneyin ve kendi verilerinizle pratik yapın. Excel’in derinliklerine indikçe, aslında ne kadar çok şeyi mümkün kıldığını göreceksiniz.</p>
+                <p><strong>Keyifli analizler!</strong></p>
+            </section>
+
+
+            <nav class="page-nav">
+                <a href="modul5-1.html" class="btn btn-secondary">&larr; Önceki Modül: Hatalar & İpuçları</a>
+                <a href="modul7-1.html" class="btn btn-primary" title="Çok Yakında!">Final: Meydan Okuma Görevleri
+                    &rarr;</a>
+            </nav>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Bu site, "Excel'de Veri Analizi: Yeni Başlayanlardan Uzmanlara Kapsamlı Rehber" içeriği temel alınarak
+                hazırlanmıştır.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

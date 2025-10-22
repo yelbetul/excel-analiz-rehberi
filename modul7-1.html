@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final: Meydan Okuma Görevleri</title>
+    <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .challenge-container {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 25px;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 50px;
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            width: 0%; /* JS ile güncellenecek */
+            height: 20px;
+            background-color: #28a745;
+            border-radius: 50px;
+            text-align: center;
+            color: white;
+            line-height: 20px;
+            font-weight: bold;
+            transition: width 0.5s ease-in-out;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 20px;
+            flex-wrap: wrap; /* Küçük ekranlar için */
+        }
+        .tab-button {
+            padding: 10px 15px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.05em;
+            font-weight: 500;
+            color: #495057;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .tab-button.active {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+        .tab-button .fa-check-circle {
+            color: #28a745;
+            margin-left: 8px;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .task-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        /* GÜNCELLENMİŞ BUTON STİLLERİ */
+        .task-box .btn-secondary, 
+        #challenge-nav .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: white;
+        }
+        #challenge-nav .btn-primary {
+            background-color: #28a745; /* Yeşil tema */
+            border-color: #28a745;
+            color: white;
+        }
+        #challenge-nav button:disabled {
+            background-color: #adb5bd;
+            border-color: #adb5bd;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        /* GÜNCELLENMİŞ RADIO BUTON STİLLERİ */
+        .quiz-options label { 
+            display: block; 
+            margin-bottom: 12px;
+            position: relative;
+            padding: 10px 10px 10px 40px;
+            cursor: pointer;
+            font-size: 1em;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            transition: background-color 0.2s, border-color 0.2s;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .quiz-options label:hover {
+            background-color: #f8f9fa;
+        }
+        .quiz-options input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .quiz-options .checkmark {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            height: 20px;
+            width: 20px;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+        }
+        .quiz-options label:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+        .quiz-options input:checked ~ .checkmark {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .quiz-options .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .quiz-options input:checked ~ .checkmark:after {
+            display: block;
+        }
+        .quiz-options .checkmark:after {
+            top: 6px;
+            left: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+        .quiz-options input:checked + span + span{
+            font-weight: bold;
+        }
+
+        code.inline-code { background-color: #e9ecef; padding: 2px 5px; border-radius: 3px; font-family: 'Courier New', Courier, monospace; }
+        .pivot-layout-example { display: flex; gap: 15px; background: white; padding: 15px; border-radius: 5px; border: 1px solid #ccc; }
+        .pivot-layout-example .fields { flex: 1; border-right: 1px solid #eee; }
+        .pivot-layout-example .zones { flex: 2; }
+        .pivot-layout-example h5 { margin-top: 0; }
+        .pivot-layout-example ul { list-style: none; padding: 0; }
+        
+        #challenge-nav {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">Excel Analiz Laboratuvarı</a>
+            <a href="index.html#quiz-start" class="nav-link">Anasayfaya Dön</a>
+        </div>
+    </nav>
+
+    <section id="module-7-challenge" class="module" style="padding-top: 50px;">
+        <div class="container">
+            <header class="module-header">
+                <h2>Final Bölümü</h2>
+                <h1>Meydan Okuma: Vaka Analizi</h1>
+            </header>
+
+            <div class="challenge-container">
+                
+                <h4>Vaka İlerlemesi</h4>
+                <div class="progress-bar-container">
+                    <div id="challenge-progress-bar" class="progress-bar">0%</div>
+                </div>
+
+                <div class="tabs" id="challenge-tabs">
+                    <button class="tab-button active" data-target="tab-scenario">Senaryo</button>
+                    <button class="tab-button" data-target="tab-task1">Görev 1: Veri Temizliği</button>
+                    <button class="tab-button" data-target="tab-task2">Görev 2: Analiz</button>
+                    <button class="tab-button" data-target="tab-task3">Görev 3: Raporlama</button>
+                    <button class="tab-button" data-target="tab-task4">Görev 4: Görselleştirme</button>
+                    <button class="tab-button" data-target="tab-conclusion">Sonuç</button>
+                </div>
+
+                <div id="tab-scenario" class="tab-content active">
+                    <h3>Vaka: E-Ticaret Performans Analizi</h3>
+                    <p>Bir e-ticaret şirketinin satış departmanından size dağınık bir veri seti ulaştı. Yönetim, sizden bu veriyi temizleyip analiz ederek aşağıdaki soruları yanıtlayan bir özet rapor hazırlamanızı istiyor:</p>
+                    <ul>
+                        <li>Hangi bölgenin toplam satışı en yüksek?</li>
+                        <li>"Elektronik" kategorisinin "Marmara" bölgesindeki toplam satışı nedir?</li>
+                        <li>Satış temsilcilerinin performansları nasıl karşılaştırılır?</li>
+                    </ul>
+                    <div class="analyst-tip">
+                        <h4>Veri Seti</h4>
+                        <p>Bu meydan okuma için, önceki modüllerde kullandığımız 25 satırlık ham veri setini temel alacağız. Diğer sekmelere geçerek görevleri tamamlamaya başlayın ve analist yeteneklerinizi test edin!</p>
+                    </div>
+                </div>
+
+                <div id="tab-task1" class="tab-content">
+                    <h3>Görev 1: Veri Kalitesi ve Temizlik</h3>
+                    <p>Analize başlamadan önce, size gönderilen aşağıdaki gibi bir veri önizlemesinde ilk fark ettiğiniz en kritik sorun nedir?</p>
+                    <div class="task-box">
+                        <h4>Soru: Bu tabloda analizi engelleyecek en büyük yapısal hata hangisidir?</h4>
+                        <table class="bad-table" style="width: 100%; margin-bottom: 15px;">
+                            <thead><tr><th colspan="3" style="text-align:center;">2025 Satış Raporu</th></tr></thead>
+                            <tbody>
+                                <tr><td colspan="3" class="region-header">Marmara Bölgesi</td></tr>
+                                <tr><td>Ali Veli</td><td>Elektronik</td><td>15000</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q1" value="a"><span class="checkmark"></span><span>Tabloda çok az veri var.</span></label>
+                            <label><input type="radio" name="q1" value="b"><span class="checkmark"></span><span>Hücreler birleştirilmiş ve "Bölge" bilgisi başlık olarak kullanılmış.</span></label>
+                            <label><input type="radio" name="q1" value="c"><span class="checkmark"></span><span>Satış tutarı sayısal değil.</span></label>
+                        </div>
+                        <button class="btn btn-secondary" data-task="1">Cevabı Kontrol Et</button>
+                        <p class="feedback-message neutral" id="feedback-task1"></p>
+                    </div>
+                </div>
+
+                <div id="tab-task2" class="tab-content">
+                    <h3>Görev 2: Formüllerle Analiz</h3>
+                    <p>Veriyi temizleyip doğru tablo yapısına getirdikten sonra, yönetim sizden spesifik bir rakam istiyor. (Veri setimizin Modül 3'teki gibi olduğunu varsayın).</p>
+                    <div class="task-box">
+                        <h4>Soru: "Marmara" bölgesindeki (Sütun A) "Elektronik" kategorisinin (Sütun B) toplam satışını (Sütun C) bulan doğru <code>SUMIFS</code> formülünü yazın.</h4>
+                        <div class="fx-bar" style="margin: 15px 0;">
+                            <span>fx</span>
+                            <input type="text" id="formula-input-task2" placeholder="=SUMIFS(...)" style="width: 100%;">
+                        </div>
+                        <button class="btn btn-secondary" data-task="2">Formülü Kontrol Et</button>
+                        <p class="feedback-message neutral" id="feedback-task2"></p>
+                    </div>
+                </div>
+
+                <div id="tab-task3" class="tab-content">
+                    <h3>Görev 3: Pivot Table ile Raporlama</h3>
+                    <p>Yönetimin "Hangi bölgenin toplam satışı en yüksek?" sorusunu cevaplamak için bir Pivot Table kurdunuz.</p>
+                    <div class="task-box">
+                        <h4>Soru: Aşağıdaki Pivot Table çıktısını oluşturmak için hangi alanları doğru bölgelere sürüklemelisiniz?</h4>
+                        <div class="pivot-layout-example">
+                            <div class="fields">
+                                <h5>Alanlar</h5>
+                                <ul>
+                                    <li><i class="fas fa-grip-vertical"></i> Bölge</li>
+                                    <li><i class="fas fa-grip-vertical"></i> Satış Tutarı</li>
+                                </ul>
+                            </div>
+                            <div class="zones">
+                                <h5>Bölgeler</h5>
+                                <p><strong>SATIRLAR:</strong> <code class="inline-code" id="pivot-q-rows">?</code></p>
+                                <p><strong>DEĞERLER:</strong> <code class="inline-code" id="pivot-q-values">?</code></p>
+                            </div>
+                        </div>
+                         <div class="quiz-options" style="margin-top:15px;">
+                            <label><input type="radio" name="q3" value="a"><span class="checkmark"></span><span>SATIRLAR: Satış Tutarı, DEĞERLER: Bölge</span></label>
+                            <label><input type="radio" name="q3" value="b"><span class="checkmark"></span><span>SATIRLAR: Bölge, DEĞERLER: Satış Tutarı</span></label>
+                            <label><input type="radio" name="q3" value="c"><span class="checkmark"></span><span>İkisi de DEĞERLER alanına sürüklenmeli</span></label>
+                        </div>
+                        <button class="btn btn-secondary" data-task="3">Cevabı Kontrol Et</button>
+                        <p class="feedback-message neutral" id="feedback-task3"></p>
+                    </div>
+                </div>
+                
+                <div id="tab-task4" class="tab-content">
+                    <h3>Görev 4: Veri Görselleştirme</h3>
+                    <p>Son olarak, "Satış temsilcilerinin performansları nasıl karşılaştırılır?" sorusunu cevaplamanız isteniyor.</p>
+                     <div class="task-box">
+                        <h4>Soru: Temsilcilerin satış rakamlarını birbiriyle kıyaslamak için en uygun grafik türü hangisidir?</h4>
+                        <div class="chart-icon-selector">
+                             <div class="chart-icon-wrapper" data-chart-type="bar"><i class="fas fa-chart-bar"></i><span>Çubuk Grafik</span></div>
+                             <div class="chart-icon-wrapper" data-chart-type="line"><i class="fas fa-chart-line"></i><span>Çizgi Grafik</span></div>
+                             <div class="chart-icon-wrapper" data-chart-type="pie"><i class="fas fa-chart-pie"></i><span>Pasta Grafik</span></div>
+                        </div>
+                        <button class="btn btn-secondary" data-task="4">Seçimi Kontrol Et</button>
+                        <p class="feedback-message neutral" id="feedback-task4"></p>
+                     </div>
+                </div>
+                
+                <div id="tab-conclusion" class="tab-content">
+                    <h3>Tebrikler, Vaka Analizini Tamamladınız!</h3>
+                    <p>Tüm görevleri başarıyla tamamlayarak bir veri analistinin temel iş akışını baştan sona uyguladınız:</p>
+                    <ol>
+                        <li><strong>Veriyi Anladınız ve Temizlediniz:</strong> Yapısal hataları fark ettiniz.</li>
+                        <li><strong>Spesifik Soruları Yanıtladınız:</strong> Formüllerle nokta atışı analizler yaptınız.</li>
+                        <li><strong>Veriyi Özetlediniz:</strong> Pivot Table'ın gücünü kullanarak genel bir bakış açısı kazandınız.</li>
+                        <li><strong>Hikayeyi Anlattınız:</strong> Sonuçları en etkili şekilde sunmak için doğru grafik türünü seçtiniz.</li>
+                    </ol>
+                    <div class="analyst-tip">
+                        <h4>Yolculuk Daha Yeni Başlıyor!</h4>
+                        <p>Bu laboratuvarda Excel'in temel analitik gücünü keşfettiniz. Buradan sonra Power Query, Power Pivot ve hatta VBA gibi daha ileri seviye araçlarla yeteneklerinizi bir üst seviyeye taşıyabilirsiniz. Öğrenmeye ve pratik yapmaya devam edin!</p>
+                    </div>
+                </div>
+                
+                <nav class="page-nav" id="challenge-nav">
+                    <button id="prev-task-btn" class="btn btn-secondary">&larr; Önceki Adım</button>
+                    <button id="next-task-btn" class="btn btn-primary">Sonraki Adım &rarr;</button>
+                </nav>
+
+            </div>
+
+            <nav class="page-nav">
+                <a href="modul6-1.html" class="btn btn-secondary">&larr; Önceki Modül: VBA ile Otomasyon</a>
+                <a href="index.html" class="btn btn-primary">Anasayfaya Dön &rarr;</a> 
+            </nav>
+        </div> 
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Bu site, "Excel'de Veri Analizi: Yeni Başlayanlardan Uzmanlara Kapsamlı Rehber" içeriği temel alınarak hazırlanmıştır.</p>
+        </div>
+    </footer>
+    
+    <script src="js/modul7.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modül 5: Sıkça Yapılan Hatalar ve İpuçları</title>
+    <link rel="stylesheet" href="css/style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .tip-card {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-left: 5px solid #007bff;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+        .tip-card h3 {
+            margin-top: 0;
+            color: #0056b3;
+            font-size: 1.4em;
+        }
+        .tip-card h3 i {
+            margin-right: 10px;
+            color: #007bff;
+        }
+        /* YENİ: Örnek Senaryo Stilleri */
+        .example-scenario {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+        }
+        .example-layout {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .example-box {
+            flex: 1;
+            min-width: 280px;
+        }
+        .example-box h5 {
+            margin-bottom: 5px;
+        }
+        .example-box .table-wrapper {
+             border: 1px solid #ccc;
+             border-radius: 4px;
+             overflow: hidden;
+        }
+        .example-box table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .example-box th, .example-box td {
+            border: 1px solid #ddd;
+            padding: 6px 8px;
+            font-size: 0.9em;
+            text-align: left;
+        }
+        .example-box th {
+            background-color: #f8f9fa;
+        }
+        .formula-box {
+            background-color: #e9ecef;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .cell-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            font-weight: bold;
+        }
+        .cell-correct {
+            background-color: #d4edda;
+            color: #155724;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">Excel Analiz Laboratuvarı</a>
+            <a href="index.html#quiz-start" class="nav-link">Anasayfaya Dön</a>
+        </div>
+    </nav>
+
+    <section id="module-5-tips" class="module" style="padding-top: 50px;">
+        <div class="container">
+            <header class="module-header">
+                <h2>Modül 5: Challenge Öncesi Hazırlık</h2>
+                <h1>Sıkça Yapılan Hatalar ve Profesyonel İpuçları</h1>
+            </header>
+
+            <section class="content-section">
+                <p>Excel güçlü bir araç olsa da, yanlış kullanımı hatalara yol açabilir. Bu bölümde, hem yeni başlayanların hem de deneyimli kullanıcıların düşebildiği yaygın tuzakları ve bunlardan kaçınma yöntemlerini ele alacağız. Bu ipuçları, analizlerinizin doğruluğunu ve verimliliğini artırmanıza yardımcı olacaktır.</p>
+            </section>
+            
+            <hr style="margin: 30px 0;">
+
+            <!-- Hata Kartları (Görsel Örneklerle Güncellendi) -->
+            <!-- Hata Kartları (Görsel Örneklerle Güncellendi) -->
+            <div class="tip-card">
+                <h3><i class="fas fa-dollar-sign"></i>1. Göreceli vs. Mutlak Referans Hatası ($)</h3>
+                <p>Formülleri aşağı/yana kopyalarken <strong>$</strong> işaretlerini unutmak, en yaygın hatalardandır. Formülünüz, sabitlemeniz gereken bir hücreden (örn: kur değeri, vergi oranı) uzaklaştıkça kayar ve yanlış sonuçlar üretir.</p>
+                
+                <div class="example-scenario">
+                    <h4>Örnek Senaryo: TL Fiyatları USD'ye Çevirme</h4>
+                    <div class="example-layout">
+                        <div class="example-box">
+                            <h5>Yanlış Kullanım (Formül Kayıyor)</h5>
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead><tr><th>Ürün</th><th>Fiyat (TL)</th><th>USD Fiyat</th><th></th><th>Kur:</th><th>32.5</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>A</td><td>3250</td><td class="cell-error">100</td><td></td><td>Formül:</td><td><code>=B2*E1</code></td></tr>
+                                        <tr><td>B</td><td>6500</td><td class="cell-error">#DEĞER!</td><td></td><td>Aşağı çekince:</td><td><code>=B3*E2</code> (Hata!)</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="example-box">
+                            <h5>Doğru Kullanım (Kur Sabitlendi)</h5>
+                             <div class="table-wrapper">
+                                <table>
+                                    <thead><tr><th>Ürün</th><th>Fiyat (TL)</th><th>USD Fiyat</th><th></th><th>Kur:</th><th>32.5</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>A</td><td>3250</td><td class="cell-correct">100</td><td></td><td>Formül:</td><td><code>=B2*$E$1</code></td></tr>
+                                        <tr><td>B</td><td>6500</td><td class="cell-correct">200</td><td></td><td>Aşağı çekince:</td><td><code>=B3*$E$1</code> (Doğru!)</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analyst-tip">
+                    <h4>Çözüm: F4 Tuşunu Kullanın!</h4>
+                    <p>Formül yazarken sabitlemek istediğiniz hücre referansının üzerindeyken <strong>F4</strong> tuşuna basın. Bu, referansı mutlak (<code>$E$1</code>), yarı mutlak (<code>E$1</code> veya <code>$E1</code>) ve göreceli (<code>E1</code>) arasında hızla değiştirir. Bunu alışkanlık haline getirin.</p>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <h3><i class="fas fa-clipboard-check"></i>2. Veri Doğrulama İhmali</h3>
+                <p>Özellikle başkalarının da veri girdiği tablolarda, yanlış türde değerlerin (sayı yerine metin, yanlış tarih formatı vb.) girişi tüm analizlerinizi bozabilir.</p>
+                <div class="analyst-tip">
+                    <h4>Çözüm: Veri Doğrulama (Data Validation) Kuralı Koyun</h4>
+                    <p>Kritik sütunlara <strong>Veri > Veri Doğrulama</strong> menüsünden kurallar koyun. Örneğin, "Bu hücreye sadece listeden bir değer girilebilir" veya "Bu hücreye sadece tarih girilebilir" gibi kurallar tanımlayarak hataları en baştan önleyin.</p>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <h3><i class="fas fa-th"></i>3. Hücre Birleştirme (Merge Cells) Problemleri</h3>
+                <p>Görünümü düzenlemek için hücre birleştirmek, veri analizi için bir kabustur. Birleştirilmiş hücreler yüzünden doğru sıralama, filtreleme veya formül kopyalama işlemleri yapılamaz.</p>
+                <div class="example-scenario">
+                     <h4>Görsel Karşılaştırma</h4>
+                    <div class="example-layout">
+                        <div class="example-box">
+                            <h5>Yanlış: Birleştirilmiş Hücreler</h5>
+                             <div class="table-wrapper">
+                                <table>
+                                    <thead><tr><th colspan="2" style="text-align:center; background:#f8d7da;">2024 Satışları</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Ocak</td><td>1500</td></tr>
+                                        <tr><td>Şubat</td><td>2200</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p style="font-size:0.9em;">Bu başlık sıralama ve filtrelemeyi bozar.</p>
+                        </div>
+                        <div class="example-box">
+                            <h5>Doğru: Seçim Arasında Ortala</h5>
+                             <div class="table-wrapper">
+                                <table>
+                                    <thead><tr><th style="text-align:center; background:#d4edda;">2024 Satışları</th><th></th></tr></thead>
+                                     <tbody>
+                                        <tr><td>Ocak</td><td>1500</td></tr>
+                                        <tr><td>Şubat</td><td>2200</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p style="font-size:0.9em;">Görünüm aynı, ama hücreler ayrı. Analize uygun.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="analyst-tip">
+                    <h4>Çözüm: "Seçim Arasında Ortala" Kullanın</h4>
+                    <p>Hücreleri birleştirmek yerine, metninizi ortalamak istediğiniz hücreleri seçin, sağ tıklayıp "Hücreleri Biçimlendir" > "Hizalama" sekmesinden Yatay > "Seçim Arasında Ortala" (Center Across Selection) seçeneğini kullanın.</p>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <h3><i class="fas fa-bug"></i>4. Formül Hatalarını Fark Etmeme (#N/A, #DIV/0!)</h3>
+                <p>Büyük tablolarda gözden kaçan <code>#N/A</code>, <code>#DIV/0!</code> gibi hatalar, aldığınız ortalama veya toplamların yanlış çıkmasına neden olabilir.</p>
+                 <div class="example-scenario">
+                    <h4>Örnek Senaryo: Birim Fiyat Hesaplama</h4>
+                    <div class="example-layout">
+                        <div class="example-box">
+                            <h5>Yanlış Kullanım (Hata Görünüyor)</h5>
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead><tr><th>Satış</th><th>Adet</th><th>Birim Fiyat</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>100</td><td>5</td><td>20</td></tr>
+                                        <tr><td>70</td><td>0</td><td class="cell-error">#DIV/0!</td></tr>
+                                        <tr><td><b>Toplam:</b></td><td></td><td class="cell-error"><b>#DIV/0!</b></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="example-box">
+                            <h5>Doğru Kullanım (IFERROR ile)</h5>
+                             <div class="table-wrapper">
+                                <table>
+                                     <thead><tr><th>Satış</th><th>Adet</th><th>Birim Fiyat</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>100</td><td>5</td><td>20</td></tr>
+                                        <tr><td>70</td><td>0</td><td class="cell-correct">0</td></tr>
+                                        <tr><td><b>Toplam:</b></td><td></td><td class="cell-correct"><b>20</b></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="formula-box">Formül: <code>=IFERROR(A2/B2, 0)</code></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="analyst-tip">
+                    <h4>Çözüm: IFERROR Formülünü Kalkan Olarak Kullanın</h4>
+                    <p>Hata verme potansiyeli olan formüllerinizi <code>=IFERROR(orijinal_formül, 0)</code> gibi bir yapı içine alın. Bu, hataları yönetilebilir bir değerle değiştirerek raporunuzu temiz tutar.</p>
+                </div>
+            </div>
+            
+             <div class="tip-card">
+                <h3><i class="fas fa-table"></i>5. Excel Tablosu (Table) Kullanmamak</h3>
+                <p>Verinizi <strong>Ctrl+T</strong> ile "Tablo" formatına dönüştürmemek, yeni veri eklediğinizde formül aralıklarının ve PivotTable'ların güncellenmemesi gibi büyük sorunlara yol açar.</p>
+                 <div class="example-scenario">
+                    <h4>Örnek Senaryo: Toplam Alma</h4>
+                    <div class="example-layout">
+                        <div class="example-box">
+                            <h5>Yanlış: Normal Aralık</h5>
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead><tr><th>Satışlar</th></tr></thead>
+                                    <tbody><tr><td>100</td></tr><tr><td>150</td></tr><tr><td style="background:#fff2cc;"><i>Yeni Veri: 200</i></td></tr></tbody>
+                                    <tfoot><tr><td class="cell-error"><b>Toplam: 250</b></td></tr></tfoot>
+                                </table>
+                            </div>
+                             <div class="formula-box">Formül: <code>=SUM(A2:A3)</code> güncellenmedi!</div>
+                        </div>
+                        <div class="example-box">
+                            <h5>Doğru: Tablo Olarak Biçimlendirilmiş</h5>
+                            <div class="table-wrapper">
+                                <table class="styled-table"> <!-- Tablo stili için -->
+                                     <thead><tr><th>Satışlar</th></tr></thead>
+                                     <tbody><tr><td>100</td></tr><tr><td>150</td></tr><tr><td><i>Yeni Veri: 200</i></td></tr></tbody>
+                                     <tfoot><tr><td class="cell-correct"><b>Toplam: 450</b></td></tr></tfoot>
+                                </table>
+                            </div>
+                             <div class="formula-box">Formül: <code>=SUM(Tablo1[Satışlar])</code> otomatik güncellendi!</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="analyst-tip">
+                    <h4>Çözüm: Verinizi Her Zaman Tabloya Dönüştürün</h4>
+                    <p>Tablolar, aralıkları dinamik hale getirir. Yeni satır eklediğinizde tüm formüller, grafikler ve PivotTable'lar otomatik olarak bu yeni veriyi tanır.</p>
+                </div>
+            </div>
+
+            <div class="tip-card">
+                <h3><i class="fas fa-file-import"></i>6. Dosya Yolu Bağımlılıkları</h3>
+                <p>Başka bir Excel dosyasından veri çeken formüller (<code>='[BaskaDosya.xlsx]Sayfa1'!$A$1</code> gibi) çok kırılgandır. O dosyanın adı veya konumu değiştiğinde bağlantı kopar ve raporunuz hata verir.</p>
+                <div class="analyst-tip">
+                    <h4>Çözüm: Power Query Kullanın</h4>
+                    <p>Farklı dosyalardan veri almak için formül bağlantıları yerine <strong>Veri > Veri Al > Dosyadan</strong> menüsünü kullanarak Power Query ile bağlantı kurun. Power Query, bu bağlantıları çok daha sağlam yönetir ve veriyi içeri almadan önce temizlemenize de olanak tanır.</p>
+                </div>
+            </div>
+
+
+            <nav class="page-nav">
+                <a href="modul4-1.html" class="btn btn-secondary">&larr; Önceki Modül: Veri Görselleştirme</a>
+                <a href="modul6-1.html" class="btn btn-primary" title="Çok Yakında!">Sonraki Adım: Ek Bölüm -> Otomasyon &rarr;</a> 
+            </nav>
+        </div> 
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Bu site, "Excel'de Veri Analizi: Yeni Başlayanlardan Uzmanlara Kapsamlı Rehber" içeriği temel alınarak hazırlanmıştır.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
+
