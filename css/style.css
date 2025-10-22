@@ -1,0 +1,1250 @@
+/* Temel Ayarlar */
+:root {
+    --excel-green: #217346;
+    --dark-text: #333;
+    --light-text: #f4f4f4;
+    --bg-light: #ffffff;
+    --bg-medium: #f4f7f6;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    background-color: var(--bg-medium);
+    color: var(--dark-text);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+h1 { font-size: 2.8rem; }
+h2 { font-size: 2.2rem; color: var(--excel-green); }
+p { margin-bottom: 1rem; }
+
+a {
+    color: var(--excel-green);
+    text-decoration: none;
+}
+
+/* Buton Stilleri */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--excel-green);
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #1a5937;
+}
+
+.btn-secondary {
+    background-color: #e9ecef;
+    color: var(--dark-text);
+}
+.btn-secondary:hover {
+    background-color: #ced4da;
+}
+
+.btn-next {
+    margin-top: 1rem;
+    background-color: #f0f0f0;
+    color: var(--dark-text);
+    border: 1px solid #ccc;
+}
+.btn-next:hover {
+    background-color: #e0e0e0;
+}
+
+/* Bölüm 1: Hero Alanı */
+.hero {
+    background-color: #2a3b4c;
+    /* Gerçek bir arka plan resmi de kullanabilirsiniz */
+    color: var(--light-text);
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.hero .subtitle {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 1rem auto 2rem auto;
+}
+
+/* Bölüm 2: Quiz */
+.quiz-section {
+    background-color: var(--bg-light);
+    padding: 4rem 0;
+    text-align: center;
+}
+
+#quiz-container {
+    max-width: 600px;
+    margin: 2rem auto 0 auto;
+    text-align: left;
+    background: #fdfdfd;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.quiz-question label {
+    display: block;
+    background: #f9f9f9;
+    padding: 0.8rem;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+    border: 1px solid #eee;
+    cursor: pointer;
+}
+.quiz-question label:hover {
+    background: #f0f0f0;
+}
+.quiz-question input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+#quiz-result {
+    background: #e6f7ee;
+    border: 1px solid var(--excel-green);
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 1rem auto;
+    text-align: center;
+}
+#quiz-result h3 {
+    color: var(--excel-green);
+}
+
+
+/* Bölüm 3: Modüller */
+.modules-section {
+    padding: 4rem 0;
+}
+.modules-section h2 {
+    text-align: center;
+}
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.card {
+    background: var(--bg-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+.card h3 {
+    color: var(--excel-green);
+}
+.card p {
+    flex-grow: 1; /* Paragrafların eşit yer kaplamasını sağlar */
+}
+.card a {
+    font-weight: bold;
+}
+
+/* Bölüm 4: Kaynaklar */
+.resources-section {
+    background-color: var(--bg-light);
+    padding: 4rem 0;
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    background-color: #2a3b4c;
+    color: #aaa;
+    text-align: center;
+    padding: 2rem 0;
+    font-size: 0.9rem;
+}
+/* ========================
+   MODÜL SAYFASI STİLLERİ
+   ======================== */
+
+   .navbar {
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-brand {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--excel-green);
+}
+.nav-link {
+    font-weight: bold;
+    color: var(--dark-text);
+}
+
+.module-page {
+    max-width: 900px; /* İçerik okuma genişliği */
+    margin: 2rem auto;
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.module-header {
+    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 2rem;
+}
+.module-header h2 {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+.module-header h1 {
+    font-size: 2.4rem;
+    color: var(--excel-green);
+    margin-bottom: 1rem;
+}
+
+.content-section {
+    margin-bottom: 2.5rem;
+}
+.content-section h3, .interactive-section h3 {
+    color: var(--dark-text);
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--excel-green);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Analist İpucu Kutusu */
+.analyst-tip {
+    background: #e6f7ee;
+    border-left: 5px solid var(--excel-green);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 5px 5px 0;
+}
+.analyst-tip h4 {
+    color: var(--excel-green);
+    margin-bottom: 0.5rem;
+}
+.analyst-tip ul {
+    list-style-position: inside;
+    margin-top: 0.5rem;
+}
+.analyst-tip li {
+    margin-bottom: 0.25rem;
+}
+.analyst-tip code, .content-section code {
+    background: #e9ecef;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+/* İnteraktif Bölüm Stilleri */
+.interactive-section {
+    background: #fdfdfd;
+    border: 1px solid #f0f0f0;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2.5rem;
+}
+
+/* Önce/Sonra Kaydırıcısı */
+.slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.slider-container img {
+    width: 100%;
+    display: block;
+}
+.slider-image-before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%; /* JS ile değişecek */
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+.slider-image-after {
+    display: block;
+}
+.slider-range {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    z-index: 2;
+    cursor: ew-resize;
+}
+.slider-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 100%;
+    width: 5px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+.slider-range::-moz-range-thumb {
+    height: 100%;
+    width: 5px;
+    background: white;
+    border-radius: 0;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    border: none;
+}
+.small-text {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* Formül Çevirici */
+.translator-container {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.translator-box {
+    flex: 1;
+    min-width: 250px;
+}
+.translator-box label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+.translator-box input {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.translator-box input#formula-en {
+    background: #f4f4f4;
+    font-weight: bold;
+    color: var(--excel-green);
+}
+
+/* Sayfa Gezintisi */
+.page-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 2rem;
+}
+.btn.disabled {
+    background-color: #e9ecef;
+    color: #adb5bd;
+    cursor: not-allowed;
+}
+.btn.disabled:hover {
+    background-color: #e9ecef;
+}
+/* ========================
+   MODÜL 1.2 STİLLERİ
+   ======================== */
+
+/* Sıralama Simülatörü */
+.sort-controls {
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.sort-controls label {
+    font-weight: bold;
+}
+.sort-controls select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Genel Tablo Stili - GÜNCELLENMİŞ */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse; /* Kenarlıkları birleştir */
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 8px; /* Köşeleri yuvarla */
+    overflow: hidden; /* Köşe yuvarlatmanın içindekileri de etkilemesi için */
+    font-size: 0.95rem;
+}
+
+.styled-table th, 
+.styled-table td {
+    padding: 1rem; /* Hücre içi boşluğu artır */
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0; /* Sadece alt çizgi */
+}
+
+.styled-table th {
+    background-color: var(--excel-green); /* Excel yeşili başlık */
+    color: white; /* Beyaz metin */
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    border-bottom-width: 2px;
+}
+
+.styled-table tbody tr {
+    background-color: #fff;
+    transition: background-color 0.2s ease;
+}
+
+/* Zebra deseni */
+.styled-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f0f7f2; /* Üzerine gelince hafif yeşil */
+}
+
+/* En son satırın alt çizgisini kaldır */
+.styled-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Sayısal sütunları sağa hizala */
+.styled-table .is-numeric {
+    text-align: right;
+    font-family: 'Consolas', 'Menlo', monospace; /* Sayılar için sabit genişlikli font */
+}
+
+/* Sekme (Tab) Galerisi */
+.tabs {
+    border-bottom: 2px solid #ddd;
+    display: flex;
+    margin-bottom: 1rem;
+}
+.tab-button {
+    background: none;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px; /* Border için yer aç */
+}
+.tab-button.active {
+    color: var(--excel-green);
+    border-bottom-color: var(--excel-green);
+}
+.tab-button:hover {
+    background-color: #f9f9f9;
+}
+
+.tab-content {
+    display: none; /* JS ile açılacak */
+    padding: 1rem;
+}
+.tab-content.active {
+    display: block;
+}
+.tab-content img {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 1rem;
+}
+/* ========================
+   DİNAMİK TABLO STİLLERİ (GÜNCELLEME)
+   ======================== */
+
+/* Kötü Veri Tablosu Stili (modul1-1) */
+.bad-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #ddd;
+}
+.bad-table th, .bad-table td {
+    border: 1px solid #ddd;
+    padding: 0.8rem;
+    text-align: left;
+}
+.bad-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: center;
+}
+.bad-table .region-header {
+    background-color: #f9f9f9;
+    font-weight: bold;
+    color: #444;
+}
+
+/* Veri Çubukları Stili (modul1-2) */
+.data-bar-table td.is-numeric {
+    position: relative; /* İçerideki çubuğu konumlandırmak için */
+}
+.data-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: #aee1b5; /* Açık yeşil */
+    z-index: 1;
+    border-right: 1px solid #74c781;
+}
+.data-bar-table td.is-numeric span {
+    position: relative;
+    z-index: 2; /* Sayının çubuğun üstünde kalmasını sağla */
+}
+
+/* Renk Ölçekleri Stili (modul1-2) */
+.color-scale-low { background-color: #f8c9c9; } /* Açık Kırmızı */
+.color-scale-mid { background-color: #fef4c9; } /* Açık Sarı */
+.color-scale-mid-high { background-color: #d4eecf; } /* Orta Yeşil */
+.color-scale-high { background-color: #aee1b5; } /* Koyu Yeşil */
+
+/* Formül Kuralı Stili (modul1-2) */
+.highlight-row {
+    background-color: #d4eecf !important; /* Vurgu rengi */
+    font-weight: bold;
+}
+.highlight-row-faint { /* 15000'e eşit olan için (hafif vurgu) */
+    background-color: #f0f7f2 !important;
+}
+
+/* Sekme Stillerini güncelle (modul1-1 de kullanacak) */
+.tabs {
+    border-bottom: 2px solid #ddd;
+    display: flex;
+    margin-bottom: 1rem;
+}
+.tab-button {
+    background: none;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px; /* Border için yer aç */
+}
+.tab-button.active {
+    color: var(--excel-green);
+    border-bottom-color: var(--excel-green);
+}
+.tab-button:hover {
+    background-color: #f9f9f9;
+}
+.tab-content {
+    display: none; /* JS ile açılacak */
+    padding: 1rem 0;
+}
+.tab-content.active {
+    display: block;
+}
+/* ========================
+   MODÜL 2: FORMÜL KÜTÜPHANESİ
+   ======================== */
+
+   .library-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start; /* Hizalama */
+}
+
+/* Sol Taraf: Formül Listesi */
+.library-sidebar {
+    flex: 0 0 250px; /* 250px genişlik, büyümesin/küçülmesin */
+    position: sticky; /* Sayfayı kaydırırken sabit kal */
+    top: 20px;
+}
+.library-sidebar h4 {
+    font-size: 1.1rem;
+    color: var(--dark-text);
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 1rem;
+}
+
+.formula-nav p {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+.formula-nav ul {
+    list-style-type: none;
+    margin-bottom: 1.5rem;
+}
+.formula-nav li a {
+    display: block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    color: #333;
+    font-size: 0.95rem;
+}
+.formula-nav li a:hover {
+    background-color: #f4f7f6;
+}
+.formula-nav li a.active {
+    background-color: #e6f7ee;
+    color: var(--excel-green);
+    font-weight: bold;
+}
+
+/* Sağ Taraf: İçerik */
+.library-content {
+    flex: 1; /* Kalan tüm alanı kapla */
+    min-width: 0; /* flex-shrink'in düzgün çalışması için */
+}
+
+#formula-detail-content h3 {
+    font-size: 1.8rem;
+    color: var(--excel-green);
+    margin-bottom: 1rem;
+}
+.syntax-box {
+    background: #2a3b4c;
+    color: #f4f4f4;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+.syntax-box code {
+    background: none;
+    padding: 0;
+}
+
+/* Canlı Formül Editörü */
+.editor-section {
+    background-color: #fdfdfd;
+}
+.live-editor-layout {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+.excel-sim {
+    flex: 1;
+    min-width: 300px;
+    font-family: 'Consolas', 'Menlo', monospace;
+}
+.excel-sim th, .excel-sim td {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.9rem;
+}
+.excel-sim thead th {
+    background: #f0f0f0;
+    color: #555;
+    font-weight: normal;
+}
+.excel-sim tbody td:first-child {
+    background: #f0f0f0;
+    color: #555;
+    font-weight: bold;
+    text-align: center;
+}
+.excel-sim tbody td {
+    background: #fff;
+}
+
+.formula-entry {
+    flex: 1;
+    min-width: 300px;
+}
+.fx-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #999;
+    border-radius: 5px;
+    margin: 0.5rem 0;
+}
+.fx-bar span {
+    background: #f0f0f0;
+    padding: 0.6rem;
+    border-right: 1px solid #ccc;
+    color: #555;
+}
+#formula-input {
+    width: 100%;
+    padding: 0.6rem;
+    border: none;
+    font-family: 'Consolas', 'Menlo', monospace;
+    font-size: 1rem;
+}
+#formula-input:focus {
+    outline: none;
+}
+.formula-entry .btn {
+    margin-top: 0.5rem;
+}
+
+.result-box {
+    margin-top: 1rem;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+.result-box span {
+    font-weight: bold;
+    color: #555;
+    margin-right: 0.5rem;
+}
+.result-cell-value {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    font-weight: bold;
+    min-width: 100px;
+    font-family: 'Consolas', 'Menlo', monospace;
+}
+.feedback-message {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+.feedback-message.success {
+    color: green;
+}
+.feedback-message.error {
+    color: red;
+}
+
+/* Karşılaştırma Tablosu */
+.compare-table tbody td:first-child {
+    font-weight: bold;
+}
+.compare-table td {
+    font-size: 0.95rem;
+}
+.compare-table strong {
+    color: var(--excel-green);
+}
+/* Editorü gizlemek için yardımcı sınıf */
+.editor-section.is-hidden {
+    display: none;
+}
+/* Önce/Sonra bölümünün ana konteyneri */
+.before-after-section {
+    border-top: 2px solid #eee;
+    padding-top: 15px;
+}
+
+/* Tabloları yan yana (flex) dizmek için */
+.before-after-layout {
+    display: flex;
+    flex-wrap: wrap; /* Küçük ekranlarda alt alta kaysın */
+    gap: 20px; /* Aradaki boşluk */
+    margin-bottom: 15px;
+}
+
+/* Her bir tabloyu saran kutu */
+.table-container {
+    flex: 1; /* Eşit yer kaplasınlar */
+    min-width: 300px; /* Çok küçülmesinler */
+}
+
+.table-container h4 {
+    margin-top: 0;
+    color: #333;
+}
+
+/* Sonuç hücresini vurgulamak için (JS'de 'result-highlight' kullanmıştık) */
+.result-highlight {
+    background-color: #e6f7ff; /* Açık mavi */
+    font-weight: bold;
+    color: #0056b3;
+    border: 1px solid #b3e0ff;
+}
+
+/* Uygulanan formül kutusu */
+.applied-formula {
+    margin-top: 10px;
+    background-color: #f9f9f9;
+}
+/* Canlı Editör - Argüman Yardımcısı Kutusu */
+.syntax-helper-box {
+    font-size: 0.9em;
+    padding: 8px 12px;
+    background: #f4f4f9;
+    border-radius: 4px;
+    margin-top: 5px;
+    font-family: "Consolas", "Courier New", monospace;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+/* O an aktif olan argümanı vurgulamak için */
+.syntax-helper-box strong {
+    color: #0056b3; /* Koyu mavi */
+    font-weight: bold;
+    background-color: #e6f0ff;
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+/* ========================
+   MODÜL 3: PIVOT TABLE ATÖLYESİ
+   ======================== */
+
+/* Ana Simülatör Konteyneri */
+.pivot-workshop-container {
+    background: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* Talimat Kutusu (Analist Notu stilini kullanabilir) */
+/* .analyst-tip { ... (Bu zaten ana CSS'nizde olmalı) ... } */
+
+/* Talimat kutusu hata/başarı durumları */
+#pivot-task-instructions.success p {
+    color: #155724; /* Koyu yeşil */
+    font-weight: bold;
+}
+#pivot-task-instructions.error p {
+    color: #721c24; /* Koyu kırmızı */
+    font-weight: bold;
+}
+
+
+/* Ana interaktif düzen: Sol (Alanlar) / Sağ (Bölgeler) */
+.pivot-interactive-layout {
+    display: flex;
+    flex-wrap: wrap; /* Küçük ekranlarda alt alta kayar */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* 2a. Sol Taraf: Sürükle Alanları Listesi */
+.pivot-field-list-container {
+    flex: 1; /* Esnek büyüme (küçük pay) */
+    min-width: 220px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    align-self: flex-start; /* Kendini başa hizala */
+}
+
+.pivot-field-list-container h4 {
+    margin-top: 0;
+}
+.pivot-field-list-container p {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: -5px;
+}
+
+ul.pivot-fields {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Sürüklenebilir her bir alan (Bölge, Ürün vb.) */
+li.pivot-field {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    cursor: grab; /* Taşıma imleci */
+    font-size: 0.95em;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+li.pivot-field:hover {
+    background-color: #f5f5f5;
+}
+
+/* Sürükleme ikonu (fas fa-grip-vertical) */
+li.pivot-field i {
+    margin-right: 10px;
+    color: #999;
+    cursor: grab;
+}
+
+/* Bir alanı aktif olarak sürüklerken */
+li.pivot-field:active,
+li.pivot-field.dragging:active {
+    cursor: grabbing;
+}
+li.pivot-field.dragging {
+    opacity: 0.5;
+    background: #e6f7ff; /* Sürükleneni mavi yap */
+    border-style: dashed;
+}
+
+
+/* 2b. Sağ Taraf: Bırakma Alanları (Grid) */
+.pivot-drop-zones {
+    flex: 2; /* Esnek büyüme (büyük pay) */
+    min-width: 350px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 sütunlu grid */
+    grid-template-rows: 1fr 1fr;   /* 2 satırlı grid */
+    gap: 10px; /* Kutular arası boşluk */
+}
+
+.drop-zone-container {
+    border: 1px solid #ddd;
+    background: #fcfcfc;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.drop-zone-container strong {
+    font-size: 0.9em;
+    color: #555;
+    text-transform: uppercase;
+}
+
+/* Alanı bırakacağımız kutu (Filtreler, Satırlar...) */
+div.drop-zone {
+    flex-grow: 1; /* Konteynerin içini doldur */
+    min-height: 80px;
+    background: #f0f0f0;
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+    padding: 8px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* Bir alanı kutunun üzerine sürüklediğimizde */
+div.drop-zone.drag-over {
+    background: #e6f7ff; /* Açık mavi */
+    border-color: #007bff; /* Mavi */
+}
+
+/* Bırakma alanına eklenen etiket (alan bırakıldıktan sonra) */
+.pivot-field-tag {
+    display: inline-block;
+    background: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    margin: 4px;
+    cursor: no-drop;
+}
+
+/* 3. Çıktı Tablosu Alanı */
+.pivot-output-container {
+    margin-top: 25px;
+    border-top: 2px solid #eee;
+    padding-top: 20px;
+}
+
+/* Çıktı tablosunun kendisi */
+.pivot-sim-output {
+    width: 100%;
+}
+
+/* (Bu stil zaten ana CSS'nizde olmalı) */
+.styled-table.pivot-sim-output th,
+.styled-table.pivot-sim-output td {
+    text-align: left;
+    padding: 10px;
+}
+
+/* Çıktı tablosundaki başlıkları (Satır/Sütun) vurgula */
+.pivot-sim-output .pivot-header {
+    font-weight: bold;
+    background-color: #f4f4f8;
+}
+/* Ana CSS dosyanıza ekleyin */
+
+/* Alanı geri bırakmak için listenin üzerine sürüklediğimizde */
+.pivot-field-list-container.drag-over {
+    background: #dff0d8; /* Başarı yeşili tonu */
+    border-color: #3c763d;
+}
+
+/* Ayrıca, pivot-field-tag'e sürükleme imleci ekleyelim */
+.pivot-field-tag {
+    /* ... (mevcut stiller) ... */
+    cursor: grab; /* Artık bu da sürüklenebilir */
+}
+
+.pivot-field-tag.dragging {
+    opacity: 0.5;
+}
+
+/* Orijinal li 'display: flex' olarak güncellendi (JS'de) */
+li.pivot-field {
+    /* ... (mevcut stiller) ... */
+    display: flex; /* 'display: none' yerine 'display: flex' kullanacağız */
+}
+/* Ana CSS dosyanıza ekleyin */
+
+.pivot-task-selector {
+    margin-bottom: 15px;
+    background: #f0f5fa;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #d6e3f0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pivot-task-selector label {
+    margin-bottom: 0;
+}
+
+/* Sitenizde varsa bu stile gerek yok, yoksa basit bir dropdown stili */
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+/* Görev seçici dropdown'ı için genişliği ayarla */
+#task-selector {
+    width: auto;
+    flex-grow: 1;
+}
+/* ===================================
+   MODÜL 3: PIVOT TABLE ÇIKTISI (GÜNCELLENMİŞ STİLLER)
+   =================================== */
+
+/* Çıktı tablosunun kendisi */
+.pivot-sim-output {
+    width: 100%;
+    border-collapse: collapse; /* Kenarlıkları birleştir */
+}
+
+/* 1. BAŞLIKLARI GÜÇLENDİRME (Kullanıcının asıl isteği) */
+/* Bu, 'Bölge \ Satış Temsilcisi', 'Ali Veli', 'Akdeniz', 'Ege' vb.
+   tüm satır ve sütun başlıklarını etkileyecek. */
+.pivot-sim-output .pivot-header {
+    font-weight: bold;
+    background-color: #e9ecef; /* Çok açık gri (#f4f4f8) yerine daha belirgin bir gri */
+    color: #212529; /* Metin rengini koyulaştır */
+    padding: 12px 10px;
+    border: 1px solid #dee2e6; /* Hücre kenarlıklarını ekle */
+}
+
+/* Normal veri hücreleri */
+.pivot-sim-output td {
+    padding: 12px 10px;
+    border: 1px solid #e0e0e0; /* Normal hücrelere de ince bir kenarlık */
+    text-align: right; /* Sayıları sağa yasla */
+}
+
+/* Veri hücrelerindeki satır başlıklarını sola yasla */
+.pivot-sim-output tbody .pivot-header {
+    text-align: left;
+}
+
+/* 2. "GENEL TOPLAM" SATIR VE SÜTUNLARINI VURGULAMA */
+
+/* Genel Toplam SATIRI (En alttaki satır) */
+.pivot-sim-output tbody tr:last-child {
+    background-color: #dee2e6; /* Başlıklardan bile bir tık koyu */
+    border-top: 2px solid #adb5bd; /* Üstte kalın ayırıcı çizgi */
+    font-weight: bold;
+    color: #000;
+}
+
+/* Genel Toplam SÜTUNU (En sağdaki sütun) */
+.pivot-sim-output thead th:last-child,
+.pivot-sim-output tbody td:last-child {
+    background-color: #e9ecef; /* Normal başlık rengiyle aynı yap */
+    font-weight: bold;
+    color: #000;
+}
+
+/* Köşedeki "Genel Toplam" hücresini (en alt sağ) en belirgin yap */
+.pivot-sim-output tbody tr:last-child td:last-child {
+    background-color: #ced4da;
+}
+/* Ana CSS dosyanıza ekleyin */
+
+/* Filtre dropdown'larını tutan alan */
+.pivot-filter-ui {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    min-height: 40px; /* Boşken de yer kaplasın */
+}
+
+/* Filtrenin her bir elemanı (Label + Select) */
+.filter-item {
+    display: inline-flex; /* Yan yana */
+    align-items: center;
+    gap: 8px;
+    margin-right: 20px;
+}
+
+.filter-item label {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.filter-item select {
+    /* .form-control stilini kullanabilir veya basit bir stil */
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+/* ========================
+   MODÜL 4: GRAFİK STÜDYOSU
+   ======================== */
+
+   .chart-workshop-container {
+    background: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* Senaryo ve Quiz'in yan yana durması için */
+.chart-setup-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 15px;
+}
+.chart-data-preview {
+    flex: 1;
+    min-width: 300px;
+}
+.chart-quiz-container {
+    flex: 1;
+    min-width: 300px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* Veri önizleme tablosu */
+#data-preview-table {
+    width: 100%;
+}
+#data-preview-table th {
+    background-color: #f1f1f1;
+}
+
+/* Grafik Seçim İkonları */
+.chart-icon-selector {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+}
+.chart-icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+    padding: 15px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+.chart-icon-wrapper:hover {
+    background: #f0f5fa;
+    border-color: #007bff;
+}
+.chart-icon-wrapper i {
+    font-size: 3em;
+    color: #007bff;
+}
+.chart-icon-wrapper span {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Grafik seçimi için Geri Bildirim Mesajı (Modül 2'den) */
+/* .feedback-message.success / .error stilleri zaten olmalı */
+#chart-quiz-feedback {
+    margin-top: 10px;
+    padding: 10px;
+}
+
+/* Grafik Stüdyosu (Sürükle-Bırak) */
+.chart-studio-container {
+    margin-top: 20px;
+}
+
+/* Çıktı Grafiği Alanı */
+.chart-output-container {
+    margin-top: 25px;
+    border-top: 2px solid #eee;
+    padding-top: 20px;
+}
+/* Canvas'ın çok büyümesini engelle */
+#chart-output-canvas {
+    max-height: 450px; 
+}
+#chart-analyst-note {
+    margin-top: 15px;
+}
